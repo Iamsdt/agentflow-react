@@ -1,0 +1,27 @@
+{
+  "name": "agentflow-react",
+  "version": "1.0.0",
+  "description": "A React library for consuming AgentFlow API",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "react": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "react",
+    "api",
+    "agentflow"
+  ],
+  "author": "",
+  "license": "MIT"
+}
