@@ -6,3 +6,6 @@ export * from './endpoints/ping.js';
 
 // Export graph Response types
 export * from './endpoints/graph.js';
+
+// Export shared metadata types
+export * from './endpoints/metadata.js';

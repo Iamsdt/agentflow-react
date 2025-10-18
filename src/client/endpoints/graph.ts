@@ -1,14 +1,10 @@
+import { ResponseMetadata } from './metadata.js';
+
 export interface GraphContext {
     baseUrl: string;
     authToken?: string | null;
     timeout: number;
     debug: boolean;
-}
-
-export interface GraphMetadata {
-    request_id: string;
-    timestamp: string;
-    message: string;
 }
 
 export interface GraphNode {
@@ -46,7 +42,7 @@ export interface GraphData {
 
 export interface GraphResponse {
     data: GraphData;
-    metadata: GraphMetadata;
+    metadata: ResponseMetadata;
 }
 
 export async function graph(context: GraphContext): Promise<GraphResponse> {

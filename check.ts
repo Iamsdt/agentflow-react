@@ -1,8 +1,8 @@
 // Simple check for AgentFlow React Library
 // This file demonstrates the API usage
 
-import { AgentFlowClient } from './src/index';
-import type { PingResponse, GraphResponse } from './src/index';
+import { AgentFlowClient } from './dist/index.js';
+import type { PingResponse, GraphResponse } from './dist/index.d.js';
 
 
 function create_client(): AgentFlowClient {
@@ -54,10 +54,9 @@ async function checkGraph(): Promise<void> {
         // Now properly typed - users can access properties with dot notation
         const graphResult: GraphResponse = await client.graph();
 
-        console.log('Full graph result:', graphResult);
         console.log('Graph nodes:', graphResult.data.nodes);
         console.log('Graph edges:', graphResult.data.edges);
-        console.log('Graph info:', graphResult.data.info);
+        console.log('Graph info:', graphResult.metadata);
 
     } catch (error) {
         console.log('Expected error (server not running):', (error as Error).message);
