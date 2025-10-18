@@ -1,5 +1,6 @@
 import { ToolDefinition } from '../tools';
 import { ping, PingContext, PingResponse } from './endpoints/ping.js';
+import { graph, GraphContext, GraphResponse } from './endpoints/graph.js';
 
 export interface AgentFlowConfig {
     baseUrl: string;
@@ -31,5 +32,16 @@ export class AgentFlowClient {
         };
 
         return ping(context);
+    }
+
+    async graph(): Promise<GraphResponse> {
+        const context: GraphContext = {
+            baseUrl: this.baseUrl,
+            authToken: this.authToken,
+            timeout: this.timeout,
+            debug: this.debug
+        };
+
+        return graph(context);
     }
 }
