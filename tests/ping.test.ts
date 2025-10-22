@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { ping } from '../src/client/endpoints/ping';
-import type { PingContext, PingResponse } from '../src/client/endpoints/ping';
+import { ping } from '../src/endpoints/ping';
+import type { PingContext, PingResponse } from '../src/endpoints/ping';
 
 // Mock fetch globally
 const fetchMock = vi.fn();

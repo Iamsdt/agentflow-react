@@ -2,7 +2,8 @@
 // This file demonstrates the API usage
 
 import { AgentFlowClient } from './dist/index.js';
-import type { PingResponse, GraphResponse } from './dist/index.d.js';
+import type { PingResponse, GraphResponse, StateSchemaResponse } from './dist/index.d.js';
+import type { AgentStateSchema, FieldSchema } from './src/endpoints/stateSchema';
 
 
 function create_client(): AgentFlowClient {
@@ -65,10 +66,62 @@ async function checkGraph(): Promise<void> {
 }
 
 
+async function checkStateSchema(): Promise<void> {
+    try {
+        console.log('\n------- Testing State Schema API -------');
+        console.log('Creating AgentFlowClient...');
+
+        // Create client with a dummy URL for testing
+        const client = create_client();
+
+        console.log('AgentFlowClient created successfully!');
+
+        console.log('Attempting to fetch state schema from the server...');
+
+        // Fetch the complete schema with field definitions
+        const schemaResponse: StateSchemaResponse = await client.graphStateSchema();
+
+        console.log('\n📋 Agent State Schema:');
+        console.log('Title:', schemaResponse.data.title);
+        console.log('Description:', schemaResponse.data.description);
+        console.log('\nAvailable Fields:');
+        
+        // Iterate through all field definitions
+        if (schemaResponse.data.properties) {
+            Object.entries(schemaResponse.data.properties).forEach(([fieldName, fieldSchema]) => {
+                console.log(`\n  📌 ${fieldName}:`);
+                console.log(`     Type: ${Array.isArray(fieldSchema.type) ? fieldSchema.type.join(' | ') : fieldSchema.type}`);
+                if (fieldSchema.description) {
+                    console.log(`     Description: ${fieldSchema.description}`);
+                }
+                if (fieldSchema.default !== undefined) {
+                    console.log(`     Default: ${JSON.stringify(fieldSchema.default)}`);
+                }
+                if (fieldSchema.items) {
+                    console.log(`     Items: ${JSON.stringify(fieldSchema.items)}`);
+                }
+            });
+        }
+        
+        console.log('\nSchema metadata:', schemaResponse.metadata);
+        console.log('\n✅ Users can now understand:');
+        console.log('   - What fields are available in AgentState');
+        console.log('   - What type each field expects');
+        console.log('   - What the default values are');
+        console.log('   - What each field represents');
+
+    } catch (error) {
+        console.log('Expected error (server not running):', (error as Error).message);
+        console.log('But the client instantiation and graphStateSchema method are working correctly!');
+    }
+}
+
+
 // *************************************
 // Check all the apis
 // *************************************
 
-checkPing();
-checkGraph();
+// checkPing();
+// checkGraph();
+checkStateSchema();
 

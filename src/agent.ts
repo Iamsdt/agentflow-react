@@ -32,8 +32,8 @@ class DefaultExecutionMeta implements ExecutionMeta {
 
 }
 
-// Define Agent class
-export class Agent {
+// Define AgentState class
+export class AgentState {
     context: Message[] = [];
     context_summary: string | null = null;
     execution_meta: ExecutionMeta = new DefaultExecutionMeta();
