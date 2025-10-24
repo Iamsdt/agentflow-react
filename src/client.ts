@@ -3,6 +3,7 @@ import { Message } from './message.js';
 import { ping, PingContext, PingResponse } from './endpoints/ping.js';
 import { graph, GraphContext, GraphResponse } from './endpoints/graph.js';
 import { stateSchema, StateSchemaContext, StateSchemaResponse } from './endpoints/stateSchema.js';
+import { threadState, ThreadStateContext, ThreadStateResponse } from './endpoints/threadState.js';
 import { 
     invoke as invokeEndpoint, 
     InvokeContext, 
@@ -101,6 +102,22 @@ export class AgentFlowClient {
         };
 
         return stateSchema(context);
+    }
+
+    /**
+     * Fetch the state of a specific thread
+     * @param threadId - The ID of the thread to fetch state for
+     * @returns ThreadStateResponse containing the thread's current state
+     */
+    async threadState(threadId: number): Promise<ThreadStateResponse> {
+        const context: ThreadStateContext = {
+            baseUrl: this.baseUrl,
+            authToken: this.authToken,
+            timeout: this.timeout,
+            debug: this.debug
+        };
+
+        return threadState(context, threadId);
     }
 
     /**

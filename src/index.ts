@@ -13,6 +13,9 @@ export * from './endpoints/graph.js';
 // Export state schema Response types  
 export * from './endpoints/stateSchema.js';
 
+// Export thread state Response types
+export * from './endpoints/threadState.js';
+
 // Export invoke types
 export * from './endpoints/invoke.js';
 

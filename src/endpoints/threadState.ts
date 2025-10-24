@@ -1,0 +1,68 @@
+import { ResponseMetadata } from './metadata.js';
+import { AgentState } from '../agent.js';
+
+export interface ThreadStateContext {
+    baseUrl: string;
+    authToken?: string | null;
+    timeout: number;
+    debug: boolean;
+}
+
+export interface ThreadStateData {
+    state: AgentState;
+}
+
+export interface ThreadStateResponse {
+    data: ThreadStateData;
+    metadata: ResponseMetadata;
+}
+
+export async function threadState(
+    context: ThreadStateContext,
+    threadId: number
+): Promise<ThreadStateResponse> {
+    try {
+        if (context.debug) {
+            console.debug(`AgentFlowClient: Fetching thread state for thread ${threadId}`);
+        }
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), context.timeout);
+
+        const response = await fetch(`${context.baseUrl}/v1/threads/${threadId}/state`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json',
+                ...(context.authToken && { 'Authorization': `Bearer ${context.authToken}` })
+            },
+            signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+            console.warn(`AgentFlowClient: Thread state fetch failed with HTTP ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data: ThreadStateResponse = await response.json();
+
+        if (context.debug) {
+            console.info(`AgentFlowClient: Thread state fetched successfully for thread ${threadId}`, data);
+        }
+
+        return data;
+    } catch (error) {
+        if ((error as Error).name === 'AbortError') {
+            console.warn(`AgentFlowClient: Thread state fetch timeout after ${context.timeout}ms`);
+            throw new Error(`Request timeout after ${context.timeout}ms`);
+        }
+
+        if (context.debug) {
+            console.debug(`AgentFlowClient: Thread state fetch failed:`, error);
+        }
+
+        throw error;
+    }
+}
