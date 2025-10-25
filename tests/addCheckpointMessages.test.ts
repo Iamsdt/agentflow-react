@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { addCheckpointMessages } from '../src/endpoints/addThreadMessages';
+import { addThreadMessages } from '../src/endpoints/addThreadMessages';
 import type { 
-    AddCheckpointMessagesContext, 
-    AddCheckpointMessagesRequest, 
-    AddCheckpointMessagesResponse 
+    AddThreadMessagesContext, 
+    AddThreadMessagesRequest, 
+    AddThreadMessagesResponse 
 } from '../src/endpoints/addThreadMessages';
 import { Message, TextBlock } from '../src/message';
 
@@ -11,9 +11,9 @@ import { Message, TextBlock } from '../src/message';
 const fetchMock = vi.fn();
 global.fetch = fetchMock;
 
-describe('Add Checkpoint Messages Endpoint Tests', () => {
-    let mockContext: AddCheckpointMessagesContext;
-    let mockRequest: AddCheckpointMessagesRequest;
+describe('Add Thread Messages Endpoint Tests', () => {
+    let mockContext: AddThreadMessagesContext;
+    let mockRequest: AddThreadMessagesRequest;
 
     beforeEach(() => {
         mockContext = {
@@ -43,9 +43,9 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
         vi.restoreAllMocks();
     });
 
-    describe('Successful add checkpoint messages', () => {
+    describe('Successful add thread messages', () => {
         it('should return success response with correct structure', async () => {
-            const mockResponse: AddCheckpointMessagesResponse = {
+            const mockResponse: AddThreadMessagesResponse = {
                 data: {
                     success: true,
                     message: 'Messages added successfully',
@@ -64,7 +64,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
             };
             fetchMock.mockResolvedValue(mockFetchResponse);
 
-            const result = await addCheckpointMessages(mockContext, mockRequest);
+            const result = await addThreadMessages(mockContext, mockRequest);
 
             expect(result).toEqual(mockResponse);
             expect(result.data.success).toBe(true);
@@ -72,7 +72,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
         });
 
         it('should construct correct URL for thread', async () => {
-            const mockResponse: AddCheckpointMessagesResponse = {
+            const mockResponse: AddThreadMessagesResponse = {
                 data: {
                     success: true,
                     message: 'Success',
@@ -91,7 +91,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
             };
             fetchMock.mockResolvedValue(mockFetchResponse);
 
-            await addCheckpointMessages(mockContext, mockRequest);
+            await addThreadMessages(mockContext, mockRequest);
 
             const callArgs = fetchMock.mock.calls[0];
             const url = callArgs[0];
@@ -100,7 +100,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
         });
 
         it('should send POST request with correct headers', async () => {
-            const mockResponse: AddCheckpointMessagesResponse = {
+            const mockResponse: AddThreadMessagesResponse = {
                 data: {
                     success: true,
                     message: 'Success',
@@ -119,7 +119,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
             };
             fetchMock.mockResolvedValue(mockFetchResponse);
 
-            await addCheckpointMessages(mockContext, mockRequest);
+            await addThreadMessages(mockContext, mockRequest);
 
             const callArgs = fetchMock.mock.calls[0];
             const options = callArgs[1];
@@ -130,7 +130,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
         });
 
         it('should send correct body with messages, config, and metadata', async () => {
-            const mockResponse: AddCheckpointMessagesResponse = {
+            const mockResponse: AddThreadMessagesResponse = {
                 data: {
                     success: true,
                     message: 'Success',
@@ -149,7 +149,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
             };
             fetchMock.mockResolvedValue(mockFetchResponse);
 
-            await addCheckpointMessages(mockContext, mockRequest);
+            await addThreadMessages(mockContext, mockRequest);
 
             const callArgs = fetchMock.mock.calls[0];
             const options = callArgs[1];
@@ -166,7 +166,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
                 threadId: 'thread-abc-123'
             };
 
-            const mockResponse: AddCheckpointMessagesResponse = {
+            const mockResponse: AddThreadMessagesResponse = {
                 data: {
                     success: true,
                     message: 'Success',
@@ -185,7 +185,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
             };
             fetchMock.mockResolvedValue(mockFetchResponse);
 
-            const result = await addCheckpointMessages(mockContext, requestWithStringId);
+            const result = await addThreadMessages(mockContext, requestWithStringId);
 
             const callArgs = fetchMock.mock.calls[0];
             const url = callArgs[0];
@@ -207,7 +207,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
                 messages: [message1, message2]
             };
 
-            const mockResponse: AddCheckpointMessagesResponse = {
+            const mockResponse: AddThreadMessagesResponse = {
                 data: {
                     success: true,
                     message: 'Success',
@@ -226,7 +226,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
             };
             fetchMock.mockResolvedValue(mockFetchResponse);
 
-            await addCheckpointMessages(mockContext, requestWithMultipleMessages);
+            await addThreadMessages(mockContext, requestWithMultipleMessages);
 
             const callArgs = fetchMock.mock.calls[0];
             const options = callArgs[1];
@@ -242,7 +242,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
                 messages: [mockRequest.messages[0]]
             };
 
-            const mockResponse: AddCheckpointMessagesResponse = {
+            const mockResponse: AddThreadMessagesResponse = {
                 data: {
                     success: true,
                     message: 'Success',
@@ -261,7 +261,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
             };
             fetchMock.mockResolvedValue(mockFetchResponse);
 
-            const result = await addCheckpointMessages(mockContext, requestWithoutMetadata);
+            const result = await addThreadMessages(mockContext, requestWithoutMetadata);
 
             const callArgs = fetchMock.mock.calls[0];
             const options = callArgs[1];
@@ -280,14 +280,14 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
             };
             fetchMock.mockResolvedValue(mockFetchResponse);
 
-            await expect(addCheckpointMessages(mockContext, mockRequest))
+            await expect(addThreadMessages(mockContext, mockRequest))
                 .rejects.toThrow('HTTP error! status: 404');
         });
 
         it('should throw error on network failure', async () => {
             fetchMock.mockRejectedValue(new Error('Network error'));
 
-            await expect(addCheckpointMessages(mockContext, mockRequest))
+            await expect(addThreadMessages(mockContext, mockRequest))
                 .rejects.toThrow('Network error');
         });
 
@@ -301,7 +301,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
                 new Promise((resolve) => setTimeout(resolve, 500))
             );
 
-            await expect(addCheckpointMessages(slowContext, mockRequest))
+            await expect(addThreadMessages(slowContext, mockRequest))
                 .rejects.toThrow();
         });
 
@@ -312,7 +312,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
             };
             fetchMock.mockResolvedValue(mockFetchResponse);
 
-            await expect(addCheckpointMessages(mockContext, mockRequest))
+            await expect(addThreadMessages(mockContext, mockRequest))
                 .rejects.toThrow('HTTP error! status: 500');
         });
 
@@ -323,7 +323,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
             };
             fetchMock.mockResolvedValue(mockFetchResponse);
 
-            await expect(addCheckpointMessages(mockContext, mockRequest))
+            await expect(addThreadMessages(mockContext, mockRequest))
                 .rejects.toThrow('HTTP error! status: 401');
         });
     });
@@ -338,7 +338,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
             const consoleSpy = vi.spyOn(console, 'debug');
             const infoSpy = vi.spyOn(console, 'info');
 
-            const mockResponse: AddCheckpointMessagesResponse = {
+            const mockResponse: AddThreadMessagesResponse = {
                 data: {
                     success: true,
                     message: 'Success',
@@ -357,7 +357,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
             };
             fetchMock.mockResolvedValue(mockFetchResponse);
 
-            await addCheckpointMessages(debugContext, mockRequest);
+            await addThreadMessages(debugContext, mockRequest);
 
             expect(consoleSpy).toHaveBeenCalledWith(
                 'AgentFlowClient: Adding checkpoint messages to thread',
@@ -379,7 +379,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
 
             fetchMock.mockRejectedValue(new Error('Test error'));
 
-            await expect(addCheckpointMessages(debugContext, mockRequest))
+            await expect(addThreadMessages(debugContext, mockRequest))
                 .rejects.toThrow('Test error');
 
             expect(consoleSpy).toHaveBeenCalledWith(
@@ -396,7 +396,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
                 authToken: null
             };
 
-            const mockResponse: AddCheckpointMessagesResponse = {
+            const mockResponse: AddThreadMessagesResponse = {
                 data: {
                     success: true,
                     message: 'Success',
@@ -415,7 +415,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
             };
             fetchMock.mockResolvedValue(mockFetchResponse);
 
-            await addCheckpointMessages(contextWithoutAuth, mockRequest);
+            await addThreadMessages(contextWithoutAuth, mockRequest);
 
             const callArgs = fetchMock.mock.calls[0];
             const options = callArgs[1];
@@ -424,7 +424,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
         });
 
         it('should include auth token when provided', async () => {
-            const mockResponse: AddCheckpointMessagesResponse = {
+            const mockResponse: AddThreadMessagesResponse = {
                 data: {
                     success: true,
                     message: 'Success',
@@ -443,7 +443,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
             };
             fetchMock.mockResolvedValue(mockFetchResponse);
 
-            await addCheckpointMessages(mockContext, mockRequest);
+            await addThreadMessages(mockContext, mockRequest);
 
             const callArgs = fetchMock.mock.calls[0];
             const options = callArgs[1];
@@ -462,7 +462,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
                 }
             };
 
-            const mockResponse: AddCheckpointMessagesResponse = {
+            const mockResponse: AddThreadMessagesResponse = {
                 data: {
                     success: true,
                     message: 'Success',
@@ -481,7 +481,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
             };
             fetchMock.mockResolvedValue(mockFetchResponse);
 
-            await addCheckpointMessages(mockContext, customRequest);
+            await addThreadMessages(mockContext, customRequest);
 
             const callArgs = fetchMock.mock.calls[0];
             const options = callArgs[1];
@@ -500,7 +500,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
                 }
             };
 
-            const mockResponse: AddCheckpointMessagesResponse = {
+            const mockResponse: AddThreadMessagesResponse = {
                 data: {
                     success: true,
                     message: 'Success',
@@ -519,7 +519,7 @@ describe('Add Checkpoint Messages Endpoint Tests', () => {
             };
             fetchMock.mockResolvedValue(mockFetchResponse);
 
-            await addCheckpointMessages(mockContext, customRequest);
+            await addThreadMessages(mockContext, customRequest);
 
             const callArgs = fetchMock.mock.calls[0];
             const options = callArgs[1];

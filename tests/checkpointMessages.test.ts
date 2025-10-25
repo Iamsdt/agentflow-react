@@ -1,15 +1,15 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { checkpointMessages } from '../src/endpoints/threadMessages';
-import type { CheckpointMessagesContext, CheckpointMessagesRequest, CheckpointMessagesResponse } from '../src/endpoints/threadMessages';
+import type { ThreadMessagesContext, ThreadMessagesRequest, ThreadMessagesResponse } from '../src/endpoints/threadMessages';
 import { Message, TextBlock } from '../src/message';
 
 // Mock fetch globally
 const fetchMock = vi.fn();
 global.fetch = fetchMock;
 
-describe('Checkpoint Messages Endpoint Tests', () => {
-  let mockContext: CheckpointMessagesContext;
-  let mockRequest: CheckpointMessagesRequest;
+describe('Thread Messages Endpoint Tests', () => {
+  let mockContext: ThreadMessagesContext;
+  let mockRequest: ThreadMessagesRequest;
 
   beforeEach(() => {
     mockContext = {
@@ -41,7 +41,7 @@ describe('Checkpoint Messages Endpoint Tests', () => {
         { type: 'text', text: 'Hello' } as TextBlock
       ]);
 
-      const mockResponse: CheckpointMessagesResponse = {
+      const mockResponse: ThreadMessagesResponse = {
         data: {
           messages: [mockMessage]
         },
@@ -66,7 +66,7 @@ describe('Checkpoint Messages Endpoint Tests', () => {
     });
 
     it('should construct correct URL with query parameters', async () => {
-      const mockResponse: CheckpointMessagesResponse = {
+      const mockResponse: ThreadMessagesResponse = {
         data: { messages: [] },
         metadata: {
           request_id: 'test-request-id',
@@ -93,11 +93,11 @@ describe('Checkpoint Messages Endpoint Tests', () => {
     });
 
     it('should work with only threadId parameter', async () => {
-      const simpleRequest: CheckpointMessagesRequest = {
+      const simpleRequest: ThreadMessagesRequest = {
         threadId: 5
       };
 
-      const mockResponse: CheckpointMessagesResponse = {
+      const mockResponse: ThreadMessagesResponse = {
         data: { messages: [] },
         metadata: {
           request_id: 'test-request-id',
@@ -120,12 +120,12 @@ describe('Checkpoint Messages Endpoint Tests', () => {
     });
 
     it('should work with string threadId', async () => {
-      const stringThreadRequest: CheckpointMessagesRequest = {
+      const stringThreadRequest: ThreadMessagesRequest = {
         threadId: 'thread-abc-123',
         search: 'query'
       };
 
-      const mockResponse: CheckpointMessagesResponse = {
+      const mockResponse: ThreadMessagesResponse = {
         data: { messages: [] },
         metadata: {
           request_id: 'test-request-id',
@@ -150,7 +150,7 @@ describe('Checkpoint Messages Endpoint Tests', () => {
     it('should work without auth token', async () => {
       const contextWithoutAuth = { ...mockContext, authToken: undefined };
 
-      const mockResponse: CheckpointMessagesResponse = {
+      const mockResponse: ThreadMessagesResponse = {
         data: { messages: [] },
         metadata: {
           request_id: 'test-request-id',
@@ -232,7 +232,7 @@ describe('Checkpoint Messages Endpoint Tests', () => {
     it('should log debug messages when debug is enabled', async () => {
       const debugContext = { ...mockContext, debug: true };
 
-      const mockResponse: CheckpointMessagesResponse = {
+      const mockResponse: ThreadMessagesResponse = {
         data: { messages: [] },
         metadata: {
           request_id: 'test-request-id',
@@ -262,7 +262,7 @@ describe('Checkpoint Messages Endpoint Tests', () => {
     it('should not log debug messages when debug is disabled', async () => {
       const noDebugContext = { ...mockContext, debug: false };
 
-      const mockResponse: CheckpointMessagesResponse = {
+      const mockResponse: ThreadMessagesResponse = {
         data: { messages: [] },
         metadata: {
           request_id: 'test-request-id',
@@ -286,7 +286,7 @@ describe('Checkpoint Messages Endpoint Tests', () => {
 
   describe('Request headers', () => {
     it('should include auth token in headers when provided', async () => {
-      const mockResponse: CheckpointMessagesResponse = {
+      const mockResponse: ThreadMessagesResponse = {
         data: { messages: [] },
         metadata: {
           request_id: 'test-request-id',
@@ -309,7 +309,7 @@ describe('Checkpoint Messages Endpoint Tests', () => {
     });
 
     it('should include Content-Type header', async () => {
-      const mockResponse: CheckpointMessagesResponse = {
+      const mockResponse: ThreadMessagesResponse = {
         data: { messages: [] },
         metadata: {
           request_id: 'test-request-id',
