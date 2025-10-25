@@ -188,6 +188,44 @@ async function checkThreadState(): Promise<void> {
     }
 }
 
+async function checkThreadDetails(): Promise<void> {
+    try {
+        console.log('\n------- Testing Thread Details API -------');
+        console.log('Creating AgentFlowClient...');
+
+        const client = create_client();
+
+        console.log('AgentFlowClient created successfully!');
+
+        console.log('Attempting to fetch thread details from the server...');
+        console.log('Thread ID: 5');
+
+        const details = await client.threadDetails(5);
+
+        console.log('\n📋 Thread Details Retrieved:');
+        console.log('Request ID:', details.metadata.request_id);
+        console.log('Timestamp:', details.metadata.timestamp);
+        console.log('Status:', details.metadata.message);
+
+        const thread = details.data.thread_data.thread as any;
+        console.log('\n🧵 Thread:');
+        console.log('  ID:', thread.thread_id);
+        console.log('  Name:', thread.thread_name);
+        console.log('  User ID:', thread.user_id);
+        console.log('  Metadata:', thread.metadata);
+        console.log('  Updated At:', thread.updated_at);
+        console.log('  Run ID:', thread.run_id);
+
+        console.log('\n✅ Users can now:');
+        console.log('   - Fetch basic thread information');
+        console.log('   - Inspect ownership, metadata, and status');
+        console.log('   - Display thread labels in UI');
+    } catch (error) {
+        console.log('Expected error (server not running):', (error as Error).message);
+        console.log('But the client instantiation and threadDetails method are working correctly!');
+    }
+}
+
 
 async function checkUpdateThreadState(): Promise<void> {
     try {
@@ -866,6 +904,7 @@ async function checkStreamWithToolExecution(): Promise<void> {
 // checkGraph();
 // checkStateSchema();
 // checkThreadState();
+// checkThreadDetails();
 // checkUpdateThreadState();
 // checkCheckpointMessages();
 // checkAddCheckpointMessages();

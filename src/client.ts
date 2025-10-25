@@ -9,6 +9,7 @@ import { clearThreadState, ClearThreadStateContext, ClearThreadStateResponse } f
 import { threadMessages, ThreadMessagesContext, ThreadMessagesRequest, ThreadMessagesResponse } from './endpoints/threadMessages.js';
 import { addThreadMessages, AddThreadMessagesContext, AddThreadMessagesRequest, AddThreadMessagesResponse } from './endpoints/addThreadMessages.js';
 import { threadMessage, ThreadMessageContext, ThreadMessageRequest, ThreadMessageResponse } from './endpoints/threadMessage.js';
+import { threadDetails, ThreadDetailsContext, ThreadDetailsResponse } from './endpoints/threadDetails.js';
 import { deleteThreadMessage, DeleteThreadMessageContext, DeleteThreadMessageRequest, DeleteThreadMessageResponse } from './endpoints/deleteThreadMessage.js';
 import { 
     invoke as invokeEndpoint, 
@@ -181,6 +182,22 @@ export class AgentFlowClient {
         };
 
         return clearThreadState(context, threadId);
+    }
+
+    /**
+     * Fetch details for a specific thread
+     * @param threadId - The ID of the thread to fetch
+     * @returns ThreadDetailsResponse containing thread details
+     */
+    async threadDetails(threadId: string | number): Promise<ThreadDetailsResponse> {
+        const context: ThreadDetailsContext = {
+            baseUrl: this.baseUrl,
+            authToken: this.authToken,
+            timeout: this.timeout,
+            debug: this.debug
+        };
+
+        return threadDetails(context, threadId);
     }
 
     /**
