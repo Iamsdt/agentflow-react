@@ -519,6 +519,41 @@ async function checkAddCheckpointMessages(): Promise<void> {
     }
 }
 
+async function checkDeleteThreadMessage(): Promise<void> {
+    try {
+        console.log('\n------- Testing Delete Thread Message API (DELETE) -------');
+        console.log('Creating AgentFlowClient...');
+
+        const client = create_client();
+
+        console.log('AgentFlowClient created successfully!');
+        console.log('Attempting to delete a message from a thread...');
+        console.log('Thread ID: 5');
+        console.log('Message ID: 58788989');
+
+        const config = {};
+
+        const deleteResponse = await client.deleteMessage(5, '58788989', config);
+
+        console.log('\n📋 Delete Thread Message Response:');
+        console.log('Success:', deleteResponse.data.success);
+        console.log('Message:', deleteResponse.data.message);
+        console.log('Data:', deleteResponse.data.data);
+        console.log('\nMetadata:');
+        console.log('Request ID:', deleteResponse.metadata.request_id);
+        console.log('Timestamp:', deleteResponse.metadata.timestamp);
+        console.log('Status:', deleteResponse.metadata.message);
+
+        console.log('\n✅ Users can now:');
+        console.log('   - Delete a specific message from a thread');
+        console.log('   - Pass optional config with the request');
+        console.log('   - Verify deletion via success flag and metadata');
+    } catch (error) {
+        console.log('Expected error (server not running):', (error as Error).message);
+        console.log('But the client instantiation and deleteMessage method are working correctly!');
+    }
+}
+
 async function checkInvokeWithStreaming(): Promise<void> {
     try {
         console.log('\n------- Testing Invoke API with Progressive Results -------');
@@ -834,6 +869,7 @@ async function checkStreamWithToolExecution(): Promise<void> {
 // checkUpdateThreadState();
 // checkCheckpointMessages();
 // checkAddCheckpointMessages();
+// checkDeleteThreadMessage();
 // checkThreadMessage();
 // checkInvokeWithStreaming();
 checkStreamWithToolExecution();

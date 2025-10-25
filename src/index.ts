@@ -30,6 +30,8 @@ export * from './endpoints/addThreadMessages.js';
 
 // Export thread message Response types
 export * from './endpoints/threadMessage.js';
+// Export delete thread message Response types
+export * from './endpoints/deleteThreadMessage.js';
 
 // Export invoke types
 export * from './endpoints/invoke.js';

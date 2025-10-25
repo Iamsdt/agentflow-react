@@ -360,11 +360,11 @@ describe('Add Thread Messages Endpoint Tests', () => {
             await addThreadMessages(debugContext, mockRequest);
 
             expect(consoleSpy).toHaveBeenCalledWith(
-                'AgentFlowClient: Adding checkpoint messages to thread',
+                'AgentFlowClient: Adding thread messages to thread',
                 mockRequest.threadId
             );
             expect(infoSpy).toHaveBeenCalledWith(
-                'AgentFlowClient: Checkpoint messages added successfully',
+                'AgentFlowClient: Thread messages added successfully',
                 mockResponse
             );
         });
