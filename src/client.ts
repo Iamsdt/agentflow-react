@@ -12,6 +12,7 @@ import { threadMessage, ThreadMessageContext, ThreadMessageRequest, ThreadMessag
 import { threadDetails, ThreadDetailsContext, ThreadDetailsResponse } from './endpoints/threadDetails.js';
 import { deleteThreadMessage, DeleteThreadMessageContext, DeleteThreadMessageRequest, DeleteThreadMessageResponse } from './endpoints/deleteThreadMessage.js';
 import { deleteThread, DeleteThreadContext, DeleteThreadRequest, DeleteThreadResponse } from './endpoints/deleteThread.js';
+import { threads, ThreadsContext, ThreadsRequest, ThreadsResponse } from './endpoints/threads.js';
 import { 
     invoke as invokeEndpoint, 
     InvokeContext, 
@@ -199,6 +200,34 @@ export class AgentFlowClient {
         };
 
         return threadDetails(context, threadId);
+    }
+
+    /**
+     * Fetch list of threads with optional search and pagination
+     * @param search - Optional search term to filter threads
+     * @param offset - Optional offset for pagination (default 0)
+     * @param limit - Optional limit for pagination (default no limit)
+     * @returns ThreadsResponse containing the list of threads and metadata
+     */
+    async threads(
+        search?: string,
+        offset?: number,
+        limit?: number
+    ): Promise<ThreadsResponse> {
+        const context: ThreadsContext = {
+            baseUrl: this.baseUrl,
+            authToken: this.authToken,
+            timeout: this.timeout,
+            debug: this.debug
+        };
+
+        const request: ThreadsRequest = {
+            search,
+            offset,
+            limit
+        };
+
+        return threads(context, request);
     }
 
     /**

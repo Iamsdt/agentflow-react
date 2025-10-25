@@ -34,6 +34,8 @@ export * from './endpoints/threadMessage.js';
 export * from './endpoints/deleteThreadMessage.js';
 // Export delete thread Response types
 export * from './endpoints/deleteThread.js';
+// Export threads list Response types
+export * from './endpoints/threads.js';
 // Export thread details Response types
 export * from './endpoints/threadDetails.js';
 

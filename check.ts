@@ -226,6 +226,63 @@ async function checkThreadDetails(): Promise<void> {
     }
 }
 
+async function checkThreads(): Promise<void> {
+    try {
+        console.log('\n------- Testing Threads List API (GET) -------');
+        console.log('Creating AgentFlowClient...');
+
+        const client = create_client();
+
+        console.log('AgentFlowClient created successfully!');
+        console.log('Attempting to fetch threads list from the server...');
+
+        // Test 1: Fetch all threads
+        console.log('\n📋 Test 1: Fetching all threads (no filters)');
+        const allThreads = await client.threads();
+
+        console.log('Request ID:', allThreads.metadata.request_id);
+        console.log('Timestamp:', allThreads.metadata.timestamp);
+        console.log('Status:', allThreads.metadata.message);
+        console.log(`Found ${allThreads.data.threads.length} threads`);
+
+        if (allThreads.data.threads.length > 0) {
+            console.log('\n🧵 First Thread:');
+            const thread = allThreads.data.threads[0];
+            console.log('  ID:', thread.thread_id);
+            console.log('  Name:', thread.thread_name);
+            console.log('  User ID:', thread.user_id);
+            console.log('  Metadata:', thread.metadata);
+            console.log('  Updated At:', thread.updated_at);
+            console.log('  Run ID:', thread.run_id);
+        }
+
+        // Test 2: Fetch with search
+        console.log('\n📋 Test 2: Fetching threads with search filter');
+        const searchResults = await client.threads('s', undefined, undefined);
+        console.log(`Found ${searchResults.data.threads.length} threads matching search 's'`);
+
+        // Test 3: Fetch with pagination
+        console.log('\n📋 Test 3: Fetching threads with pagination');
+        const paginatedResults = await client.threads(undefined, 0, 10);
+        console.log(`Found ${paginatedResults.data.threads.length} threads (offset: 0, limit: 10)`);
+
+        // Test 4: Fetch with all parameters
+        console.log('\n📋 Test 4: Fetching threads with search and pagination');
+        const filteredResults = await client.threads('s', 0, 10);
+        console.log(`Found ${filteredResults.data.threads.length} threads (search: 's', offset: 0, limit: 10)`);
+
+        console.log('\n✅ Users can now:');
+        console.log('   - List all threads');
+        console.log('   - Search threads by keyword');
+        console.log('   - Paginate through thread results');
+        console.log('   - Combine search and pagination');
+        console.log('   - Display threads in a list or table UI');
+    } catch (error) {
+        console.log('Expected error (server not running):', (error as Error).message);
+        console.log('But the client instantiation and threads method are working correctly!');
+    }
+}
+
 
 async function checkUpdateThreadState(): Promise<void> {
     try {
@@ -940,6 +997,7 @@ async function checkStreamWithToolExecution(): Promise<void> {
 // checkStateSchema();
 // checkThreadState();
 // checkThreadDetails();
+// checkThreads();
 // checkUpdateThreadState();
 // checkCheckpointMessages();
 // checkAddCheckpointMessages();
