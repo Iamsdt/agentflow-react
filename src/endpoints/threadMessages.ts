@@ -1,36 +1,42 @@
 import { ResponseMetadata } from './metadata.js';
 import { Message } from '../message.js';
 
-export interface CheckpointMessagesContext {
+export interface ThreadMessagesContext {
     baseUrl: string;
     authToken?: string | null;
     timeout: number;
     debug: boolean;
 }
 
-export interface CheckpointMessagesRequest {
+export interface ThreadMessagesRequest {
     threadId: string | number;
     search?: string;
     offset?: number;
     limit?: number;
 }
 
-export interface CheckpointMessagesData {
+export interface ThreadMessagesData {
     messages: Message[];
 }
 
-export interface CheckpointMessagesResponse {
-    data: CheckpointMessagesData;
+// Backward compatibility alias
+export type CheckpointMessagesData = ThreadMessagesData;
+
+export interface ThreadMessagesResponse {
+    data: ThreadMessagesData;
     metadata: ResponseMetadata;
 }
 
-export async function checkpointMessages(
-    context: CheckpointMessagesContext,
-    request: CheckpointMessagesRequest
-): Promise<CheckpointMessagesResponse> {
+// Backward compatibility alias
+export type CheckpointMessagesResponse = ThreadMessagesResponse;
+
+export async function threadMessages(
+    context: ThreadMessagesContext,
+    request: ThreadMessagesRequest
+): Promise<ThreadMessagesResponse> {
     try {
         if (context.debug) {
-            console.debug('AgentFlowClient: Fetching checkpoint messages for thread', request.threadId);
+            console.debug('AgentFlowClient: Fetching thread messages for thread', request.threadId);
         }
 
         const controller = new AbortController();
@@ -67,10 +73,10 @@ export async function checkpointMessages(
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const data: CheckpointMessagesResponse = await response.json();
+        const data: ThreadMessagesResponse = await response.json();
 
         if (context.debug) {
-            console.info('AgentFlowClient: Checkpoint messages fetched successfully', data);
+            console.info('AgentFlowClient: Thread messages fetched successfully', data);
         }
 
         return data;
@@ -81,3 +87,6 @@ export async function checkpointMessages(
         throw error;
     }
 }
+
+// Backward compatibility alias
+export const checkpointMessages = threadMessages;

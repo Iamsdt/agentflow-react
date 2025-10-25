@@ -6,7 +6,8 @@ import { stateSchema, StateSchemaContext, StateSchemaResponse } from './endpoint
 import { threadState, ThreadStateContext, ThreadStateResponse } from './endpoints/threadState.js';
 import { updateThreadState, UpdateThreadStateContext, UpdateThreadStateRequest, UpdateThreadStateResponse } from './endpoints/updateThreadState.js';
 import { clearThreadState, ClearThreadStateContext, ClearThreadStateResponse } from './endpoints/clearThreadState.js';
-import { checkpointMessages, CheckpointMessagesContext, CheckpointMessagesRequest, CheckpointMessagesResponse } from './endpoints/checkpointMessages.js';
+import { threadMessages, ThreadMessagesContext, ThreadMessagesRequest, ThreadMessagesResponse } from './endpoints/threadMessages.js';
+import { addThreadMessages, AddThreadMessagesContext, AddThreadMessagesRequest, AddThreadMessagesResponse } from './endpoints/addThreadMessages.js';
 import { threadMessage, ThreadMessageContext, ThreadMessageRequest, ThreadMessageResponse } from './endpoints/threadMessage.js';
 import { 
     invoke as invokeEndpoint, 
@@ -119,6 +120,10 @@ export class AgentFlowClient {
     }
 
     /**
+     * ***************** ALL THREAD APIS *****************
+     */
+
+    /**
      * Fetch the state of a specific thread
      * @param threadId - The ID of the thread to fetch state for
      * @returns ThreadStateResponse containing the thread's current state
@@ -183,29 +188,60 @@ export class AgentFlowClient {
      * @param search - Optional search term to filter messages
      * @param offset - Optional offset for pagination (default 0)
      * @param limit - Optional limit for pagination (default no limit)
-     * @returns CheckpointMessagesResponse containing the messages and metadata
+     * @returns ThreadMessagesResponse containing the messages and metadata
      */
     async threadMessages(
         threadId: string | number,
         search?: string,
         offset?: number,
         limit?: number
-    ): Promise<CheckpointMessagesResponse> {
-        const context: CheckpointMessagesContext = {
+    ): Promise<ThreadMessagesResponse> {
+        const context: ThreadMessagesContext = {
             baseUrl: this.baseUrl,
             authToken: this.authToken,
             timeout: this.timeout,
             debug: this.debug
         };
 
-        const request: CheckpointMessagesRequest = {
+        const request: ThreadMessagesRequest = {
             threadId,
             search,
             offset,
             limit
         };
 
-        return checkpointMessages(context, request);
+        return threadMessages(context, request);
+    }
+
+    /**
+     * Add messages to a specific thread checkpoint
+     * @param threadId - The ID of the thread to add messages to
+     * @param messages - Array of messages to add to the checkpoint
+     * @param config - Configuration map for the checkpoint
+     * @param metadata - Optional metadata for the checkpoint
+     * @returns AddCheckpointMessagesResponse containing the operation result
+     */
+    async addThreadMessages(
+        threadId: string | number,
+        messages: Message[],
+        config: Record<string, any> = {},
+        metadata?: Record<string, any>
+    ): Promise<AddThreadMessagesResponse> {
+        const context: AddThreadMessagesContext = {
+            baseUrl: this.baseUrl,
+            authToken: this.authToken,
+            timeout: this.timeout,
+            debug: this.debug
+        };
+
+        const request: AddThreadMessagesRequest = {
+            threadId,
+            config,
+            messages,
+            metadata
+        };
+
+        return addThreadMessages(context, request);
     }
 
     /**

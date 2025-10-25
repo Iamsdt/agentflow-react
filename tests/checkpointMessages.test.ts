@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { checkpointMessages } from '../src/endpoints/checkpointMessages';
-import type { CheckpointMessagesContext, CheckpointMessagesRequest, CheckpointMessagesResponse } from '../src/endpoints/checkpointMessages';
+import { checkpointMessages } from '../src/endpoints/threadMessages';
+import type { CheckpointMessagesContext, CheckpointMessagesRequest, CheckpointMessagesResponse } from '../src/endpoints/threadMessages';
 import { Message, TextBlock } from '../src/message';
 
 // Mock fetch globally
@@ -250,11 +250,11 @@ describe('Checkpoint Messages Endpoint Tests', () => {
       await checkpointMessages(debugContext, mockRequest);
 
       expect(consoleDebugSpy).toHaveBeenCalledWith(
-        'AgentFlowClient: Fetching checkpoint messages for thread',
+        'AgentFlowClient: Fetching thread messages for thread',
         5
       );
       expect(consoleInfoSpy).toHaveBeenCalledWith(
-        'AgentFlowClient: Checkpoint messages fetched successfully',
+        'AgentFlowClient: Thread messages fetched successfully',
         mockResponse
       );
     });

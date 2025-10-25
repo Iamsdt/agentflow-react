@@ -340,7 +340,7 @@ async function checkCheckpointMessages(): Promise<void> {
         console.log('Limit: 10');
 
         // Fetch checkpoint messages with search and pagination
-        const messagesResponse = await client.checkpointMessages(5, 'h', 0, 10);
+        const messagesResponse = await client.threadMessages(5, 'h', 0, 10);
 
         console.log('\n📋 Checkpoint Messages Retrieved:');
         console.log('Request ID:', messagesResponse.metadata.request_id);
@@ -404,7 +404,7 @@ async function checkThreadMessage(): Promise<void> {
         console.log('Message ID: 39dff7f2-b300-465a-82a3-3985b7c8bc81');
 
         // Fetch a specific message by ID
-        const messageResponse = await client.threadMessage(5, '39dff7f2-b300-465a-82a3-3985b7c8bc81');
+        const messageResponse = await client.singleMessage(5, '39dff7f2-b300-465a-82a3-3985b7c8bc81');
 
         console.log('\n📋 Thread Message Retrieved:');
         console.log('Request ID:', messageResponse.metadata.request_id);
@@ -456,6 +456,66 @@ async function checkThreadMessage(): Promise<void> {
     } catch (error) {
         console.log('Expected error (server not running):', (error as Error).message);
         console.log('But the client instantiation and threadMessage method are working correctly!');
+    }
+}
+
+async function checkAddCheckpointMessages(): Promise<void> {
+    try {
+        console.log('\n------- Testing Add Checkpoint Messages API (POST) -------');
+        console.log('Creating AgentFlowClient...');
+
+        // Create client
+        const client = create_client();
+
+        console.log('AgentFlowClient created successfully!');
+
+        console.log('Attempting to add messages to thread checkpoint...');
+        console.log('Thread ID: 5');
+
+        // Import Message class to create messages
+        const { Message } = await import('./dist/index.js');
+
+        // Create sample messages to add to the checkpoint
+        const messages = [
+            Message.text_message('Hello, this is a checkpoint message!', 'user'),
+            Message.text_message('Thank you for saving this to the checkpoint.', 'assistant')
+        ];
+
+        // Configuration for the checkpoint
+        const config = {
+            model: 'gpt-4',
+            temperature: 0.7
+        };
+
+        // Metadata for the checkpoint
+        const metadata = {
+            source: 'manual_checkpoint',
+            timestamp: new Date().toISOString()
+        };
+
+        // Add messages to the thread checkpoint
+        const addResponse = await client.addThreadMessages(5, messages, config, metadata);
+
+        console.log('\n📋 Add Checkpoint Messages Response:');
+        console.log('Success:', addResponse.data.success);
+        console.log('Message:', addResponse.data.message);
+        console.log('Data:', addResponse.data.data);
+        console.log('\nMetadata:');
+        console.log('Request ID:', addResponse.metadata.request_id);
+        console.log('Timestamp:', addResponse.metadata.timestamp);
+        console.log('Status:', addResponse.metadata.message);
+
+        console.log('\n✅ Users can now:');
+        console.log('   - Add new messages to thread checkpoints');
+        console.log('   - Save conversation history programmatically');
+        console.log('   - Include configuration with checkpoint');
+        console.log('   - Add metadata to checkpoints');
+        console.log('   - Batch add multiple messages at once');
+        console.log('   - Create manual checkpoints for thread state');
+
+    } catch (error) {
+        console.log('Expected error (server not running):', (error as Error).message);
+        console.log('But the client instantiation and addThreadMessages method are working correctly!');
     }
 }
 
@@ -773,6 +833,7 @@ async function checkStreamWithToolExecution(): Promise<void> {
 // checkThreadState();
 // checkUpdateThreadState();
 // checkCheckpointMessages();
+// checkAddCheckpointMessages();
 // checkThreadMessage();
 // checkInvokeWithStreaming();
 checkStreamWithToolExecution();

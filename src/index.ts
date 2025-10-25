@@ -23,7 +23,10 @@ export * from './endpoints/updateThreadState.js';
 export * from './endpoints/clearThreadState.js';
 
 // Export checkpoint messages Response types
-export * from './endpoints/checkpointMessages.js';
+export * from './endpoints/threadMessages.js';
+
+// Export add checkpoint messages Response types
+export * from './endpoints/addThreadMessages.js';
 
 // Export thread message Response types
 export * from './endpoints/threadMessage.js';
