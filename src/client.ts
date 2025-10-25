@@ -11,6 +11,7 @@ import { addThreadMessages, AddThreadMessagesContext, AddThreadMessagesRequest, 
 import { threadMessage, ThreadMessageContext, ThreadMessageRequest, ThreadMessageResponse } from './endpoints/threadMessage.js';
 import { threadDetails, ThreadDetailsContext, ThreadDetailsResponse } from './endpoints/threadDetails.js';
 import { deleteThreadMessage, DeleteThreadMessageContext, DeleteThreadMessageRequest, DeleteThreadMessageResponse } from './endpoints/deleteThreadMessage.js';
+import { deleteThread, DeleteThreadContext, DeleteThreadRequest, DeleteThreadResponse } from './endpoints/deleteThread.js';
 import { 
     invoke as invokeEndpoint, 
     InvokeContext, 
@@ -313,6 +314,31 @@ export class AgentFlowClient {
         };
 
         return deleteThreadMessage(context, request);
+    }
+
+    /**
+     * Delete a specific thread
+     * @param threadId - The ID of the thread to delete
+     * @param config - Optional configuration map to send with the request body
+     * @returns DeleteThreadResponse containing the deletion result
+     */
+    async deleteThread(
+        threadId: string | number,
+        config?: Record<string, any>
+    ): Promise<DeleteThreadResponse> {
+        const context: DeleteThreadContext = {
+            baseUrl: this.baseUrl,
+            authToken: this.authToken,
+            timeout: this.timeout,
+            debug: this.debug
+        };
+
+        const request: DeleteThreadRequest = {
+            threadId,
+            config
+        };
+
+        return deleteThread(context, request);
     }
 
     /**

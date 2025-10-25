@@ -1,4 +1,4 @@
-Task: Lets integrate Threads Details
+Task: Lets integrate Thread Delete
 Steps:
 1. Checking existing codebase all the api in a separate folder named endpoints
 2. Create a new files and write api logic there
@@ -11,17 +11,16 @@ Steps:
 
 Here is the api:
 curl -X 'GET' \
-  'http://127.0.0.1:8000/v1/threads/5' \
+  'http://127.0.0.1:8000/v1/threads?search=s&offset=0&limit=10' \
   -H 'accept: application/json'
 
-Input list message object with config
 
 
 Response:
 {
   "data": {
-    "thread_data": {
-      "thread": {
+    "threads": [
+      {
         "thread_id": "5",
         "thread_name": null,
         "user_id": null,
@@ -29,11 +28,11 @@ Response:
         "updated_at": null,
         "run_id": null
       }
-    }
+    ]
   },
   "metadata": {
-    "request_id": "9925ae58-d83d-4cbb-bc1b-ac048bd4a9b3",
-    "timestamp": "2025-10-26T01:21:30.488167",
+    "request_id": "76794838-1a00-4a0b-8a7e-d2247b1cccef",
+    "timestamp": "2025-10-26T01:38:12.094988",
     "message": "OK"
   }
 }
