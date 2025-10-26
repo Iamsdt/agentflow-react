@@ -63,6 +63,12 @@ export * from './endpoints/updateMemory.js';
 // Export delete memory types
 export * from './endpoints/deleteMemory.js';
 
+// Export list memories types
+export * from './endpoints/listMemories.js';
+
+// Export forget memories types
+export * from './endpoints/forgetMemories.js';
+
 // Export shared metadata types
 export * from './endpoints/metadata.js';
 

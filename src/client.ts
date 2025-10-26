@@ -58,6 +58,18 @@ import {
     DeleteMemoryRequest,
     DeleteMemoryResponse
 } from './endpoints/deleteMemory.js';
+import {
+    listMemories as listMemoriesEndpoint,
+    ListMemoriesContext,
+    ListMemoriesRequest,
+    ListMemoriesResponse
+} from './endpoints/listMemories.js';
+import {
+    forgetMemories as forgetMemoriesEndpoint,
+    ForgetMemoriesContext,
+    ForgetMemoriesRequest,
+    ForgetMemoriesResponse
+} from './endpoints/forgetMemories.js';
 
 export interface AgentFlowConfig {
     baseUrl: string;
@@ -658,6 +670,87 @@ export class AgentFlowClient {
         };
 
         return deleteMemoryEndpoint(context, request);
+    }
+
+    /**
+     * List all memories with optional pagination
+     * 
+     * @param options - Optional config, options, and limit
+     * @returns Promise<ListMemoriesResponse> containing array of memories
+     * 
+     * @example
+     * ```ts
+     * const result = await client.listMemories({
+     *   limit: 50,
+     *   config: { include_vectors: false }
+     * });
+     * console.log('Found memories:', result.data.memories.length);
+     * result.data.memories.forEach(memory => {
+     *   console.log('Memory:', memory.content, 'Type:', memory.memory_type);
+     * });
+     * ```
+     */
+    async listMemories(
+        options?: { config?: Record<string, any>; options?: Record<string, any>; limit?: number }
+    ): Promise<ListMemoriesResponse> {
+        const context: ListMemoriesContext = {
+            baseUrl: this.baseUrl,
+            authToken: this.authToken,
+            timeout: this.timeout,
+            debug: this.debug
+        };
+
+        const request: ListMemoriesRequest = {
+            config: options?.config,
+            options: options?.options,
+            limit: options?.limit
+        };
+
+        return listMemoriesEndpoint(context, request);
+    }
+
+    /**
+     * Forget (delete) memories based on filters and criteria
+     * 
+     * @param options - Optional config, options, memory type, category, and filters
+     * @returns Promise<ForgetMemoriesResponse> containing success status
+     * 
+     * @example
+     * ```ts
+     * // Forget all episodic memories in a category
+     * const result = await client.forgetMemories({
+     *   memory_type: MemoryType.EPISODIC,
+     *   category: 'temporary',
+     *   filters: { tag: 'delete-me' }
+     * });
+     * console.log('Forget success:', result.data.success);
+     * ```
+     */
+    async forgetMemories(
+        options?: {
+            config?: Record<string, any>;
+            options?: Record<string, any>;
+            memory_type?: any;
+            category?: string;
+            filters?: Record<string, any>;
+        }
+    ): Promise<ForgetMemoriesResponse> {
+        const context: ForgetMemoriesContext = {
+            baseUrl: this.baseUrl,
+            authToken: this.authToken,
+            timeout: this.timeout,
+            debug: this.debug
+        };
+
+        const request: ForgetMemoriesRequest = {
+            config: options?.config,
+            options: options?.options,
+            memory_type: options?.memory_type,
+            category: options?.category,
+            filters: options?.filters
+        };
+
+        return forgetMemoriesEndpoint(context, request);
     }
 
     /**

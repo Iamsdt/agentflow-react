@@ -9,35 +9,24 @@ Steps:
 7. Update check.ts file to include the new api
 
 
-Here is the api: List Memories
+Here is the api: Forget Memories
 curl -X 'POST' \
-  'http://127.0.0.1:8000/v1/store/memories/list' \
+  'http://127.0.0.1:8000/v1/store/memories/forget' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
   "config": {},
   "options": {},
-  "limit": 100
+  "memory_type": "episodic",
+  "category": "string",
+  "filters": {}
 }'
 
 Response:
 {
   "data": {
-    "memories": [
-      {
-        "id": "string",
-        "content": "",
-        "score": 0,
-        "memory_type": "episodic",
-        "metadata": {},
-        "vector": [
-          0
-        ],
-        "user_id": "string",
-        "thread_id": "string",
-        "timestamp": "2025-10-26T10:54:53.969Z"
-      }
-    ]
+    "success": true,
+    "data": {}
   },
   "metadata": {
     "message": "Success",
@@ -45,5 +34,3 @@ Response:
     "timestamp": "2025-10-26T12:51:13.040424"
   }
 }
-
-Memory Object is already created in other apis

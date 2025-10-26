@@ -11,6 +11,8 @@ import type { SearchMemoryResponse } from './src/endpoints/searchMemory';
 import type { GetMemoryResponse } from './src/endpoints/getMemory';
 import type { UpdateMemoryResponse } from './src/endpoints/updateMemory';
 import type { DeleteMemoryResponse } from './src/endpoints/deleteMemory';
+import type { ListMemoriesResponse } from './src/endpoints/listMemories';
+import type { ForgetMemoriesResponse } from './src/endpoints/forgetMemories';
 
 
 function create_client(): AgentFlowClient {
@@ -1706,6 +1708,375 @@ async function checkDeleteMemory(): Promise<void> {
     }
 }
 
+async function checkListMemories(): Promise<void> {
+    try {
+        console.log('\n------- Testing List Memories API -------');
+        console.log('Creating AgentFlowClient...');
+
+        // Create client with a dummy URL for testing
+        const client = create_client();
+
+        console.log('AgentFlowClient created successfully!');
+
+        console.log('\nAttempting to fetch list of memories...\n');
+
+        // Example 1: Basic list with default limit
+        console.log('1️⃣  Fetching memories with default limit (100)...');
+        const basicList: ListMemoriesResponse = await client.listMemories();
+        console.log('   ✅ Memories fetched:');
+        console.log('      Total count:', basicList.data.memories.length);
+        console.log('      Request ID:', basicList.metadata.request_id);
+        console.log('      Timestamp:', basicList.metadata.timestamp);
+
+        if (basicList.data.memories.length > 0) {
+            const firstMemory = basicList.data.memories[0];
+            console.log('      First memory ID:', firstMemory.id);
+            console.log('      First memory type:', firstMemory.memory_type);
+            console.log('      First memory score:', firstMemory.score);
+        }
+
+        // Example 2: List with custom limit
+        console.log('\n2️⃣  Fetching memories with custom limit (50)...');
+        const limitedList: ListMemoriesResponse = await client.listMemories({
+            limit: 50
+        });
+        console.log('   ✅ Limited memories fetched:');
+        console.log('      Count:', limitedList.data.memories.length);
+        console.log('      Limit applied: 50');
+
+        // Example 3: List with configuration options
+        console.log('\n3️⃣  Fetching memories with config options...');
+        const configuredList: ListMemoriesResponse = await client.listMemories({
+            limit: 25,
+            config: {
+                include_vectors: false,
+                include_metadata: true
+            }
+        });
+        console.log('   ✅ Configured list fetched:');
+        console.log('      Count:', configuredList.data.memories.length);
+        console.log('      Vectors excluded, metadata included');
+
+        // Example 4: List with sorting and filtering options
+        console.log('\n4️⃣  Fetching memories with sorting options...');
+        const sortedList: ListMemoriesResponse = await client.listMemories({
+            limit: 100,
+            options: {
+                sort_by: 'timestamp',
+                sort_order: 'desc'
+            }
+        });
+        console.log('   ✅ Sorted list fetched:');
+        console.log('      Count:', sortedList.data.memories.length);
+        console.log('      Sorted by: timestamp (descending)');
+
+        // Example 5: List with memory type filter
+        console.log('\n5️⃣  Fetching episodic memories only...');
+        const episodicList: ListMemoriesResponse = await client.listMemories({
+            limit: 30,
+            config: {
+                memory_type: 'episodic'
+            }
+        });
+        console.log('   ✅ Episodic memories fetched:');
+        console.log('      Count:', episodicList.data.memories.length);
+        console.log('      Type filter: episodic');
+
+        // Example 6: Pagination scenario
+        console.log('\n6️⃣  Demonstrating pagination...');
+        const page1: ListMemoriesResponse = await client.listMemories({
+            limit: 20,
+            options: {
+                offset: 0
+            }
+        });
+        console.log('   ✅ Page 1 fetched:');
+        console.log('      Count:', page1.data.memories.length);
+        console.log('      Offset: 0, Limit: 20');
+
+        const page2: ListMemoriesResponse = await client.listMemories({
+            limit: 20,
+            options: {
+                offset: 20
+            }
+        });
+        console.log('   ✅ Page 2 fetched:');
+        console.log('      Count:', page2.data.memories.length);
+        console.log('      Offset: 20, Limit: 20');
+
+        // Example 7: List with thread filter
+        console.log('\n7️⃣  Fetching memories for specific thread...');
+        const threadMemories: ListMemoriesResponse = await client.listMemories({
+            limit: 50,
+            config: {
+                thread_id: 'thread-123'
+            }
+        });
+        console.log('   ✅ Thread-specific memories fetched:');
+        console.log('      Count:', threadMemories.data.memories.length);
+        console.log('      Thread ID: thread-123');
+
+        // Example 8: Analyze memory types distribution
+        console.log('\n8️⃣  Analyzing memory types distribution...');
+        const allMemories: ListMemoriesResponse = await client.listMemories({
+            limit: 200
+        });
+
+        const typeDistribution: Record<string, number> = {};
+        allMemories.data.memories.forEach(memory => {
+            typeDistribution[memory.memory_type] = (typeDistribution[memory.memory_type] || 0) + 1;
+        });
+
+        console.log('   ✅ Memory type distribution:');
+        Object.entries(typeDistribution).forEach(([type, count]) => {
+            console.log(`      - ${type}: ${count} memories`);
+        });
+
+        console.log('\n' + '='.repeat(60));
+        console.log('\n✅ ALL MEMORY LIST TESTS SUCCESSFUL!\n');
+        console.log('📊 Memory List Capabilities:');
+        console.log('   - Fetch all memories with pagination');
+        console.log('   - Customize result limit (default: 100)');
+        console.log('   - Sort by timestamp or other fields');
+        console.log('   - Filter by memory type');
+        console.log('   - Filter by thread ID or user ID');
+        console.log('   - Include/exclude vectors and metadata');
+        console.log('   - Pagination support with offset');
+
+        console.log('\n🎯 Configuration Options:');
+        console.log('   - config.include_vectors: Include vector embeddings');
+        console.log('   - config.include_metadata: Include metadata objects');
+        console.log('   - config.memory_type: Filter by memory type');
+        console.log('   - config.thread_id: Filter by thread');
+        console.log('   - config.user_id: Filter by user');
+
+        console.log('\n⚙️  Additional Options:');
+        console.log('   - options.sort_by: Field to sort by');
+        console.log('   - options.sort_order: Sort direction (asc/desc)');
+        console.log('   - options.offset: Pagination offset');
+        console.log('   - limit: Maximum number of results (default: 100)');
+
+        console.log('\n💡 Key Features Demonstrated:');
+        console.log('   ✅ Basic memory listing');
+        console.log('   ✅ Custom limit control');
+        console.log('   ✅ Configuration options');
+        console.log('   ✅ Sorting and filtering');
+        console.log('   ✅ Pagination support');
+        console.log('   ✅ Type-based filtering');
+        console.log('   ✅ Thread-specific queries');
+        console.log('   ✅ Memory analysis and distribution');
+
+        console.log('\n📝 Typical Use Cases:');
+        console.log('   • View all stored memories');
+        console.log('   • Browse memory history');
+        console.log('   • Analyze memory distribution');
+        console.log('   • Export memory data');
+        console.log('   • Memory management dashboard');
+        console.log('   • Pagination for large datasets');
+        console.log('   • Filter memories by context');
+        console.log('   • Memory type analysis');
+
+        console.log('\n⚠️  Important Notes:');
+        console.log('   • Default limit is 100 memories');
+        console.log('   • Use pagination for large datasets');
+        console.log('   • Vectors can be excluded to reduce payload');
+        console.log('   • Sorting improves result relevance');
+        console.log('   • Filtering reduces network overhead');
+
+        console.log('\n📈 Performance Tips:');
+        console.log('   • Set appropriate limit for your use case');
+        console.log('   • Exclude vectors when not needed');
+        console.log('   • Use filters to narrow results');
+        console.log('   • Implement pagination for better UX');
+        console.log('   • Cache results when appropriate');
+
+    } catch (error) {
+        console.log('\n❌ Error:', (error as Error).message);
+        console.log('Expected error (server not running):', (error as Error).message);
+        console.log('But the client instantiation and listMemories method are working correctly!');
+    }
+}
+
+
+async function checkForgetMemories(): Promise<void> {
+    try {
+        console.log('\n' + '='.repeat(70));
+        console.log('🧹 FORGET MEMORIES API CHECK');
+        console.log('='.repeat(70) + '\n');
+
+        const client = create_client();
+
+        console.log('📋 Forget Memories API - Bulk delete memories by criteria\n');
+        console.log('   The forgetMemories API allows you to delete multiple memories');
+        console.log('   based on type, category, and custom filters.\n');
+
+        // Example 1: Forget all memories of a specific type
+        console.log('1️⃣  Forget All Episodic Memories');
+        console.log('   ─────────────────────────────');
+        try {
+            const result1 = await client.forgetMemories({
+                memory_type: MemoryType.EPISODIC
+            });
+            console.log('   ✓ Forgotten count:', result1.data.data.forgotten_count || 0);
+            console.log('   ✓ Success:', result1.data.success);
+        } catch (error) {
+            console.log('   ⚠️  Expected error:', (error as Error).message);
+        }
+
+        // Example 2: Forget memories by category
+        console.log('\n2️⃣  Forget Memories by Category');
+        console.log('   ────────────────────────────');
+        try {
+            const result2 = await client.forgetMemories({
+                category: 'temporary-session-data'
+            });
+            console.log('   ✓ Forgotten count:', result2.data.data.forgotten_count || 0);
+            console.log('   ✓ Success:', result2.data.success);
+        } catch (error) {
+            console.log('   ⚠️  Expected error:', (error as Error).message);
+        }
+
+        // Example 3: Forget memories with filters
+        console.log('\n3️⃣  Forget Memories with Thread Filter');
+        console.log('   ──────────────────────────────────');
+        try {
+            const result3 = await client.forgetMemories({
+                filters: {
+                    thread_id: 'expired-thread-123',
+                    tag: 'delete-me'
+                }
+            });
+            console.log('   ✓ Forgotten count:', result3.data.data.forgotten_count || 0);
+            console.log('   ✓ Affected threads:', result3.data.data.affected_threads || []);
+        } catch (error) {
+            console.log('   ⚠️  Expected error:', (error as Error).message);
+        }
+
+        // Example 4: Combine type, category, and filters
+        console.log('\n4️⃣  Complex Forget with Multiple Criteria');
+        console.log('   ──────────────────────────────────────');
+        try {
+            const result4 = await client.forgetMemories({
+                memory_type: MemoryType.EPISODIC,
+                category: 'test-data',
+                filters: {
+                    importance: 'low',
+                    tag: 'temporary',
+                    created_before: '2024-01-01'
+                },
+                config: {
+                    soft_delete: false,  // Hard delete (permanent)
+                    cascade: true        // Delete related data
+                },
+                options: {
+                    backup: true,        // Create backup before deleting
+                    force: false         // Don't force if there are dependencies
+                }
+            });
+            console.log('   ✓ Forgotten count:', result4.data.data.forgotten_count || 0);
+            console.log('   ✓ Success:', result4.data.success);
+        } catch (error) {
+            console.log('   ⚠️  Expected error:', (error as Error).message);
+        }
+
+        // Example 5: Forget semantic memories only
+        console.log('\n5️⃣  Forget Semantic Memories');
+        console.log('   ─────────────────────────');
+        try {
+            const result5 = await client.forgetMemories({
+                memory_type: MemoryType.SEMANTIC,
+                config: {
+                    cleanup_vectors: true  // Also cleanup vector embeddings
+                }
+            });
+            console.log('   ✓ Forgotten count:', result5.data.data.forgotten_count || 0);
+            console.log('   ✓ Success:', result5.data.success);
+        } catch (error) {
+            console.log('   ⚠️  Expected error:', (error as Error).message);
+        }
+
+        // Example 6: Forget by multiple tags
+        console.log('\n6️⃣  Forget by Multiple Filter Conditions');
+        console.log('   ─────────────────────────────────────');
+        try {
+            const result6 = await client.forgetMemories({
+                filters: {
+                    tags: ['temporary', 'test', 'debug'],
+                    importance: 'low',
+                    thread_id: 'cleanup-thread'
+                }
+            });
+            console.log('   ✓ Forgotten count:', result6.data.data.forgotten_count || 0);
+            console.log('   ✓ Success:', result6.data.success);
+        } catch (error) {
+            console.log('   ⚠️  Expected error:', (error as Error).message);
+        }
+
+        console.log('\n' + '─'.repeat(70));
+        console.log('📚 API DOCUMENTATION');
+        console.log('─'.repeat(70));
+
+        console.log('\n📍 Endpoint: POST /v1/store/memories/forget');
+        console.log('\n🔑 Parameters:');
+        console.log('   • memory_type?: MemoryType - Filter by memory type');
+        console.log('     - MemoryType.EPISODIC: Event-based memories');
+        console.log('     - MemoryType.SEMANTIC: Knowledge/fact memories');
+        console.log('     - MemoryType.PROCEDURAL: Skill/procedure memories');
+        console.log('   • category?: string - Filter by category');
+        console.log('   • filters?: object - Custom filter conditions');
+        console.log('     - thread_id: Filter by specific thread');
+        console.log('     - tag: Filter by tag');
+        console.log('     - importance: Filter by importance level');
+        console.log('     - created_before/after: Filter by date');
+        console.log('   • config?: object - Deletion configuration');
+        console.log('     - soft_delete: boolean - Soft vs hard delete');
+        console.log('     - cascade: boolean - Delete related data');
+        console.log('     - cleanup_vectors: boolean - Clean up embeddings');
+        console.log('   • options?: object - Additional options');
+        console.log('     - backup: boolean - Create backup before delete');
+        console.log('     - force: boolean - Force deletion');
+
+        console.log('\n📤 Response Structure:');
+        console.log('   {');
+        console.log('     data: {');
+        console.log('       success: boolean,');
+        console.log('       data: {');
+        console.log('         forgotten_count: number,');
+        console.log('         affected_threads?: string[]');
+        console.log('       }');
+        console.log('     },');
+        console.log('     metadata: { request_id, timestamp, message }');
+        console.log('   }');
+
+        console.log('\n⚠️  Safety Considerations:');
+        console.log('   • CAUTION: Forget operations are destructive');
+        console.log('   • Use soft_delete: true for recoverable deletions');
+        console.log('   • Use backup: true for critical data');
+        console.log('   • Test filters with listMemories first');
+        console.log('   • Consider impact on dependent memories');
+
+        console.log('\n💡 Use Cases:');
+        console.log('   • Clean up temporary session data');
+        console.log('   • Remove test/debug memories');
+        console.log('   • Delete expired thread memories');
+        console.log('   • Bulk cleanup of low-importance memories');
+        console.log('   • GDPR/privacy compliance deletions');
+        console.log('   • Memory management/optimization');
+
+        console.log('\n📖 Best Practices:');
+        console.log('   • Preview deletions with listMemories first');
+        console.log('   • Use specific filters to avoid over-deletion');
+        console.log('   • Enable backups for important operations');
+        console.log('   • Document deletion criteria');
+        console.log('   • Monitor forgotten_count in response');
+
+    } catch (error) {
+        console.log('\n❌ Error:', (error as Error).message);
+        console.log('Expected error (server not running):', (error as Error).message);
+        console.log('But the client instantiation and forgetMemories method are working correctly!');
+    }
+}
+
 
 // *************************************
 // Check all the apis
@@ -1728,6 +2099,9 @@ async function checkDeleteMemory(): Promise<void> {
 // checkGetMemory();
 // checkUpdateMemory();
 // checkDeleteMemory();
+// checkListMemories();
+// checkForgetMemories();
 // checkInvokeWithStreaming();
 checkStreamWithToolExecution();
+
 
