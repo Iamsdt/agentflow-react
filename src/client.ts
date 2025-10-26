@@ -34,6 +34,12 @@ import {
     StoreMemoryRequest,
     StoreMemoryResponse
 } from './endpoints/storeMemory.js';
+import {
+    searchMemory as searchMemoryEndpoint,
+    SearchMemoryContext,
+    SearchMemoryRequest,
+    SearchMemoryResponse
+} from './endpoints/searchMemory.js';
 
 export interface AgentFlowConfig {
     baseUrl: string;
@@ -493,6 +499,36 @@ export class AgentFlowClient {
         };
 
         return storeMemoryEndpoint(context, request);
+    }
+
+    /**
+     * Search for memories in the agent's memory system
+     * 
+     * @param request - Memory search request parameters
+     * @returns Promise<SearchMemoryResponse> containing matching memories
+     * 
+     * @example
+     * ```ts
+     * const results = await client.searchMemory({
+     *   query: "dark mode preferences",
+     *   memory_type: MemoryType.SEMANTIC,
+     *   limit: 5,
+     *   retrieval_strategy: RetrievalStrategy.SIMILARITY
+     * });
+     * results.data.results.forEach(result => {
+     *   console.log('Memory:', result.content, 'Score:', result.score);
+     * });
+     * ```
+     */
+    async searchMemory(request: SearchMemoryRequest): Promise<SearchMemoryResponse> {
+        const context: SearchMemoryContext = {
+            baseUrl: this.baseUrl,
+            authToken: this.authToken,
+            timeout: this.timeout,
+            debug: this.debug
+        };
+
+        return searchMemoryEndpoint(context, request);
     }
 
     /**

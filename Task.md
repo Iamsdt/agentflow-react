@@ -11,18 +11,41 @@ Steps:
 
 Here is the api:
 curl -X 'POST' \
-  'http://127.0.0.1:8000/v1/store/memories' \
+  'http://127.0.0.1:8000/v1/store/search' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
   "config": {},
   "options": {},
-  "content": "string",
+  "query": "string",
   "memory_type": "episodic",
-  "category": "general",
-  "metadata": {}
+  "category": "string",
+  "limit": 10,
+  "score_threshold": 0,
+  "filters": {},
+  "retrieval_strategy": "similarity",
+  "distance_metric": "cosine",
+  "max_tokens": 4000
 }'
 
+class RetrievalStrategy(Enum):
+    """Memory retrieval strategies."""
+
+    SIMILARITY = "similarity"  # Vector similarity search
+    TEMPORAL = "temporal"  # Time-based retrieval
+    RELEVANCE = "relevance"  # Relevance scoring
+    HYBRID = "hybrid"  # Combined approaches
+    GRAPH_TRAVERSAL = "graph_traversal"  # Knowledge graph navigation
+
+    
+
+class DistanceMetric(Enum):
+    """Supported distance metrics for vector similarity."""
+
+    COSINE = "cosine"
+    EUCLIDEAN = "euclidean"
+    DOT_PRODUCT = "dot_product"
+    MANHATTAN = "manhattan"
 
 
 class MemoryType(Enum):
@@ -40,11 +63,25 @@ class MemoryType(Enum):
 Response:
 {
   "data": {
-    "memory_id": "string"
+    "results": [
+      {
+        "id": "string",
+        "content": "",
+        "score": 0,
+        "memory_type": "episodic",
+        "metadata": {},
+        "vector": [
+          0
+        ],
+        "user_id": "string",
+        "thread_id": "string",
+        "timestamp": "2025-10-26T06:59:08.624Z"
+      }
+    ]
   },
   "metadata": {
     "message": "Success",
-    "request_id": "e0c023e6066742b8bba8ad7990608018",
-    "timestamp": "2025-10-26T12:05:32.986050"
+    "request_id": "50009c49f05241938ce738a2199cd38a",
+    "timestamp": "2025-10-26T12:51:13.040424"
   }
 }
