@@ -48,6 +48,9 @@ export * from './endpoints/invoke.js';
 // Export stream types
 export * from './endpoints/stream.js';
 
+// Export store memory types
+export * from './endpoints/storeMemory.js';
+
 // Export shared metadata types
 export * from './endpoints/metadata.js';
 

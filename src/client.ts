@@ -28,6 +28,12 @@ import {
     StreamChunk,
     StreamEventType
 } from './endpoints/stream.js';
+import {
+    storeMemory as storeMemoryEndpoint,
+    StoreMemoryContext,
+    StoreMemoryRequest,
+    StoreMemoryResponse
+} from './endpoints/storeMemory.js';
 
 export interface AgentFlowConfig {
     baseUrl: string;
@@ -459,6 +465,34 @@ export class AgentFlowClient {
 
         // Return async generator from the stream endpoint
         return streamInvokeEndpoint(context, request);
+    }
+
+    /**
+     * Store a memory in the agent's memory system
+     * 
+     * @param request - Memory storage request parameters
+     * @returns Promise<StoreMemoryResponse> containing the memory_id
+     * 
+     * @example
+     * ```ts
+     * const result = await client.storeMemory({
+     *   content: "User prefers dark mode",
+     *   memory_type: MemoryType.SEMANTIC,
+     *   category: "preferences",
+     *   metadata: { source: "user_settings" }
+     * });
+     * console.log('Memory stored with ID:', result.data.memory_id);
+     * ```
+     */
+    async storeMemory(request: StoreMemoryRequest): Promise<StoreMemoryResponse> {
+        const context: StoreMemoryContext = {
+            baseUrl: this.baseUrl,
+            authToken: this.authToken,
+            timeout: this.timeout,
+            debug: this.debug
+        };
+
+        return storeMemoryEndpoint(context, request);
     }
 
     /**
