@@ -1,6 +1,6 @@
-# agentflow-react
+# @10xscale/agentflow-client
 
-A TypeScript library for integrating with the AgentFlow API, designed for building conversational AI applications with memory, state management, and tool execution capabilities.
+A TypeScript client library for integrating with the AgentFlow API, designed for building conversational AI applications with memory, state management, and tool execution capabilities.
 
 ## ✨ Features
 
@@ -17,13 +17,13 @@ A TypeScript library for integrating with the AgentFlow API, designed for buildi
 ## 📦 Installation
 
 ```bash
-npm install agentflow-react
+npm install @10xscale/agentflow-client
 ```
 
 Or with yarn:
 
 ```bash
-yarn add agentflow-react
+yarn add @10xscale/agentflow-client
 ```
 
 ## 🚀 Quick Start
@@ -31,7 +31,7 @@ yarn add agentflow-react
 ### Basic Setup
 
 ```typescript
-import { AgentFlowClient, Message } from 'agentflow-react';
+import { AgentFlowClient, Message } from '@10xscale/agentflow-client';
 
 const client = new AgentFlowClient({
   baseUrl: 'https://your-api-url.com',
@@ -102,7 +102,7 @@ const result = await client.invoke({
 ### Memory Operations
 
 ```typescript
-import { MemoryType } from 'agentflow-react';
+import { MemoryType } from '@10xscale/agentflow-client';
 
 // Store memory
 await client.storeMemory({
@@ -207,7 +207,7 @@ const result = await client.invoke({
 
 ### Memory-Enhanced Bot
 ```typescript
-import { MemoryType, RetrievalStrategy } from 'agentflow-react';
+import { MemoryType, RetrievalStrategy } from '@10xscale/agentflow-client';
 
 // Store conversation memory
 await client.storeMemory({
@@ -270,7 +270,7 @@ import {
   NotFoundError,
   ValidationError,
   AuthenticationError
-} from 'agentflow-react';
+} from '@10xscale/agentflow-client';
 
 try {
   await client.threadDetails('thread_123');
@@ -340,7 +340,7 @@ This project maintains high standards:
 ## 📁 Project Structure
 
 ```
-agentflow-react/
+agentflow-client/
 ├── src/
 │   ├── client.ts              # Main API client
 │   ├── agent.ts               # Agent types
@@ -400,7 +400,7 @@ MIT
 
 - **Documentation**: [docs/](./docs/)
 - **Examples**: [examples/](./examples/)
-- **Issues**: [GitHub Issues](https://github.com/your-repo/agentflow-react/issues)
+- **Issues**: [GitHub Issues](https://github.com/Iamsdt/agentflow-client/issues)
 
 ## 🙏 Acknowledgments
 

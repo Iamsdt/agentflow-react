@@ -1,6 +1,6 @@
 # AgentFlow React - Documentation Index
 
-Complete documentation for the agentflow-react library.
+Complete documentation for the @10xscale/agentflow-client library.
 
 ## 🚀 Getting Started
 
@@ -232,7 +232,7 @@ Available examples:
 
 #### Basic Setup
 ```typescript
-import { AgentFlowClient } from 'agentflow-react';
+import { AgentFlowClient } from '@10xscale/agentflow-client';
 
 const client = new AgentFlowClient({
   baseUrl: 'https://api.example.com',
@@ -242,7 +242,7 @@ const client = new AgentFlowClient({
 
 #### Simple Invoke
 ```typescript
-import { Message } from 'agentflow-react';
+import { Message } from '@10xscale/agentflow-client';
 
 const result = await client.invoke({
   messages: [Message.user('Hello!')]
@@ -262,7 +262,7 @@ for await (const chunk of client.stream({
 
 #### Store Memory
 ```typescript
-import { MemoryType } from 'agentflow-react';
+import { MemoryType } from '@10xscale/agentflow-client';
 
 await client.storeMemory({
   content: 'User prefers dark mode',
@@ -273,7 +273,7 @@ await client.storeMemory({
 
 #### Error Handling
 ```typescript
-import { NotFoundError, ValidationError } from 'agentflow-react';
+import { NotFoundError, ValidationError } from '@10xscale/agentflow-client';
 
 try {
   await client.threadDetails('thread_123');
@@ -330,7 +330,7 @@ try {
 
 ### Installation
 ```bash
-npm install agentflow-react
+npm install @10xscale/agentflow-client
 ```
 
 ### Version
@@ -431,7 +431,7 @@ After reading these docs, you'll understand:
 ## 🚀 Quick Start Code
 
 ```typescript
-import { AgentFlowClient } from 'agentflow-react';
+import { AgentFlowClient } from '@10xscale/agentflow-client';
 
 const client = new AgentFlowClient({
   baseUrl: 'https://api.example.com',
