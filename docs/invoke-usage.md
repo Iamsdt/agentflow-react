@@ -6,6 +6,17 @@ This document explains how to use the `invoke` method with automatic tool execut
 
 The `invoke` method allows you to interact with the AgentFlow API and automatically execute remote tools in a loop until completion or the recursion limit is reached.
 
+### Remote Tools vs Backend Tools
+
+**IMPORTANT:** Before using remote tools, understand the difference:
+
+- **Backend Tools** (Python AgentFlow library): ✅ **PREFERRED** - Run on the server, more secure and efficient
+- **Remote Tools** (This client library): ⚠️ **ONLY for browser-level APIs** - Run on the client (e.g., `localStorage`, `navigator.geolocation`)
+
+**Use remote tools ONLY when you need access to browser-specific APIs.** For database queries, external API calls, calculations, and most other operations, define your tools in the Python backend instead.
+
+**See:** [Tools Guide - When to Use Remote Tools](./tools-guide.md#remote-tools-vs-backend-tools) for detailed guidance.
+
 ## Architecture
 
 ### Flow Diagram
@@ -186,6 +197,8 @@ No more tool calls → Return result
 ```
 
 ## Tool Registration
+
+**⚠️ Important:** Remote tool registration should only be used for browser-level APIs. For most use cases, define your tools in the Python backend instead. See [When to Use Remote Tools](./tools-guide.md#remote-tools-vs-backend-tools).
 
 ### ToolRegistration Interface
 

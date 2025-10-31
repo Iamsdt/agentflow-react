@@ -503,6 +503,10 @@ function StreamingMessage({ chunk }: { chunk: StreamChunk }) {
 
 ### Tool Execution Indicator
 
+Show when the agent is executing remote tools (client-side only).
+
+**⚠️ Note:** This only applies to remote tools registered client-side. Backend tools (defined in Python) execute on the server and aren't visible here.
+
 ```typescript
 function Chat() {
   const { messages } = useMessages();

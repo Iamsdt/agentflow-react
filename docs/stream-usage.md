@@ -208,7 +208,9 @@ export default ChatComponent;
 
 ### Advanced: Stream with Tool Execution
 
-For scenarios where the server sends remote tool calls during streaming, you can handle them manually:
+For scenarios where the server sends remote tool calls during streaming, you can handle them manually.
+
+**⚠️ Note:** Remote tool calls are only for browser-level APIs. Most tools should be defined in your Python backend. See [Tools Guide](./tools-guide.md#remote-tools-vs-backend-tools).
 
 ```typescript
 import { AgentFlowClient, Message, StreamEventType } from 'agentflow-react';

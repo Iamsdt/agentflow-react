@@ -1,6 +1,11 @@
 /**
  * Example: Using AgentFlowClient with tool registration and invoke
  * 
+ * ⚠️ IMPORTANT: This example demonstrates remote tool registration for demonstration purposes.
+ * In production, you should define most tools in your Python backend (agent graph) instead.
+ * Only use remote tools (client-side) for browser-level APIs like localStorage, geolocation, etc.
+ * See: docs/tools-guide.md#remote-tools-vs-backend-tools
+ * 
  * This example demonstrates:
  * 1. Creating an AgentFlowClient
  * 2. Registering tools for remote execution

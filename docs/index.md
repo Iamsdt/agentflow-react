@@ -24,6 +24,35 @@ Welcome to the **AgentFlow Client** documentation! This guide will help you inte
 - ✅ **React-Ready** - Built specifically for React applications
 - ✅ **TypeScript** - Full type safety and IntelliSense support
 
+---
+
+## 🚨 CRITICAL: Remote Tools vs Backend Tools
+
+**Before you start:** Understanding tool types is essential for proper AgentFlow usage.
+
+### 🔴 Remote Tools (Client-Side - LIMITED USE)
+- **WHEN TO USE:** Only for browser-level APIs
+  - `navigator.geolocation` (GPS/location)
+  - `localStorage`/`sessionStorage` (client-side storage)
+  - DOM manipulation and access
+  - WebRTC, camera/microphone access
+  - File uploads from user's device
+- **WHEN NOT TO USE:** Database queries, external APIs, calculations, file operations
+- **WHY LIMITED:** Runs in browser, less secure, no server access
+
+### ✅ Backend Tools (Server-Side - PREFERRED)
+- **WHEN TO USE:** For most operations
+  - Database queries and operations
+  - External API calls (weather, payments, etc.)
+  - Mathematical calculations
+  - File system operations
+  - Business logic and data processing
+- **WHY PREFERRED:** More secure, efficient, scalable, full server access
+
+**💡 Rule of Thumb:** If your tool needs server-side resources or external APIs, define it as a backend tool in your Python AgentFlow library instead of using remote tools.
+
+---
+
 ## 🎓 Learning Path
 
 ### 👶 Beginner (Start Here)
@@ -119,12 +148,23 @@ Working with dynamic agent state:
 #### [Tools Guide](./tools-guide.md)
 Master tool registration and execution:
 - What are tools?
+- **🔴 REMOTE TOOLS vs BACKEND TOOLS** ⚠️ **CRITICAL DISTINCTION**
 - Tool registration patterns
 - Handler implementation
 - OpenAI-style parameters
 - Error handling
 - Testing tools
 - Common patterns (weather, calculator, API calls)
+
+**🚨 REMOTE TOOLS (Client-Side):**
+- ✅ **USE ONLY FOR:** Browser APIs (`localStorage`, `navigator.geolocation`, DOM manipulation, WebRTC)
+- ❌ **DO NOT USE FOR:** Database queries, external API calls, calculations, file operations
+- **INSTEAD:** Define these as backend tools in your Python AgentFlow library
+
+**✅ BACKEND TOOLS (Server-Side - PREFERRED):**
+- Database operations, API calls, calculations, file system access
+- More secure, efficient, and scalable
+- Full access to your server infrastructure
 
 #### [TypeScript Types](./typescript-types.md)
 Advanced TypeScript usage:
@@ -160,6 +200,8 @@ Solutions to common issues:
 
 **...register custom tools**
 → [Tools Guide](./tools-guide.md)
+🚨 **REMOTE TOOLS:** Only for browser APIs (geolocation, localStorage, DOM)
+❌ **BACKEND TOOLS:** Preferred for everything else (APIs, databases, calculations)
 
 **...build dynamic forms**
 → [State Schema Guide](./state-schema-guide.md) or [React Examples - Form Builder](./react-examples.md#dynamic-form-builder)
@@ -175,16 +217,6 @@ Solutions to common issues:
 
 **...see complete examples**
 → [React Examples](./react-examples.md) or [/examples folder](../examples/)
-
-## � Code Examples
-
-Browse working code examples in the [`examples/`](../examples/) directory:
-
-- `invoke-example.ts` - Basic invoke with tool execution
-- `stream-example.ts` - Streaming responses
-- `state-schema-examples.ts` - Form generation and validation
-- `react-chat-component.tsx` - React chat UI
-- `react-form-builder.tsx` - Dynamic form builder
 
 ## � Installation
 
@@ -208,40 +240,3 @@ const result = await client.invoke([
 console.log(result.messages);
 ```
 
-## 🆘 Getting Help
-
-- 📚 Browse this documentation
-- 💡 Check [React Examples](./react-examples.md)
-- � Review [Troubleshooting Guide](./troubleshooting.md)
-- 📖 Read [API Reference](./api-reference.md)
-- 🔍 Search [GitHub Issues](https://github.com/Iamsdt/agentflow-react/issues)
-
-## 📊 Documentation Overview
-
-```
-docs/
-├── README.md (you are here)       # Documentation index & navigation
-├── getting-started.md             # Quick start guide
-├── api-reference.md              # Complete API reference
-├── react-integration.md          # React usage guide
-├── react-examples.md             # React component examples
-├── tools-guide.md                # Tool registration & usage
-├── typescript-types.md           # TypeScript guide
-├── troubleshooting.md            # Common issues
-├── invoke-usage.md               # Invoke API deep dive
-├── stream-usage.md               # Stream API deep dive
-├── stream-quick-ref.md           # Stream quick reference
-├── state-schema-guide.md         # State schema deep dive
-└── state-schema-quick-ref.md     # State schema quick reference
-```
-
-## 🎯 Next Steps
-
-1. Start with **[Getting Started](./getting-started.md)** if you're new
-2. Check **[React Integration](./react-integration.md)** for React-specific patterns
-3. Explore **[React Examples](./react-examples.md)** for complete component code
-4. Deep dive into specific APIs as needed
-
----
-
-**Happy coding! 🚀**

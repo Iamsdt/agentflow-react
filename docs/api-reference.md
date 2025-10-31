@@ -765,6 +765,9 @@ The invoke endpoint automatically:
 import { Message } from 'agentflow-react';
 
 // Register tools first
+// ⚠️ IMPORTANT: Only use remote tools for browser-level APIs
+// For most operations, define tools in your Python backend instead
+// See: docs/tools-guide.md#remote-tools-vs-backend-tools
 client.registerTool({
   node: 'weather_node',
   name: 'get_weather',

@@ -804,6 +804,11 @@ const styles = {
 
 Chat interface with tool execution.
 
+**⚠️ Important Note:** The tools shown in this example are for demonstration purposes. In production:
+- **Use backend tools** (defined in your Python agent graph) for most operations
+- **Use remote tools** (shown here) ONLY for browser-level APIs like `localStorage`, `navigator.geolocation`, etc.
+- See [Tools Guide - When to Use Remote Tools](./tools-guide.md#remote-tools-vs-backend-tools) for detailed guidance
+
 ### Features
 - ✅ Tool registration
 - ✅ Tool execution feedback

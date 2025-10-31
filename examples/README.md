@@ -14,6 +14,8 @@ This directory contains complete, runnable examples demonstrating how to use the
 - Handling invoke results
 - Progress callbacks with `on_progress`
 
+**⚠️ Important Note:** This example demonstrates remote tool registration for learning purposes. In production, define most tools in your Python backend. Remote tools should **only** be used for browser-level APIs. See [Tools Guide](../docs/tools-guide.md#remote-tools-vs-backend-tools).
+
 **Best for:**
 - Understanding the invoke API
 - Learning tool registration patterns

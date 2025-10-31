@@ -155,10 +155,12 @@ console.log('Iterations:', result.iterations);
 
 Execute the agent with automatic tool execution.
 
+**⚠️ Important:** Remote tools (registered client-side) should **only** be used for browser-level APIs like `localStorage`, `navigator.geolocation`, etc. For most operations (database queries, external API calls, calculations), define your tools in the Python backend instead. See [Tools Guide - When to Use Remote Tools](./tools-guide.md#remote-tools-vs-backend-tools).
+
 ```typescript
 import { Message } from 'agentflow-react';
 
-// Step 1: Register tools
+// Step 1: Register tools (ONLY for browser APIs)
 client.registerTool({
   node: 'weather_node',
   name: 'get_weather',

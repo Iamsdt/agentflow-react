@@ -94,8 +94,10 @@ function ChatComponent() {
 
 ### Tool Registration
 
+**⚠️ Important:** Remote tools (registered client-side) should **only** be used for browser-level APIs like `localStorage`, `navigator.geolocation`, etc. For most operations (database queries, external API calls, calculations), define your tools in the Python backend instead. See [Tools Guide](docs/tools-guide.md#remote-tools-vs-backend-tools) for details.
+
 ```typescript
-// Register custom tools for agent execution
+// Register custom tools for agent execution (ONLY for browser APIs)
 client.registerTool({
   node: 'assistant',
   name: 'get_weather',
@@ -130,7 +132,7 @@ const result = await client.invoke([
 - **[Invoke API](docs/invoke-usage.md)** - Request/response pattern with tool execution
 - **[Stream API](docs/stream-usage.md)** - Real-time streaming responses
 - **[State Schema](docs/state-schema-guide.md)** - Dynamic state management and validation
-- **[Tools Guide](docs/tools-guide.md)** - Tool registration and execution
+- **[Tools Guide](docs/tools-guide.md)** - Tool registration and execution ⚠️ **Important: Remote vs Backend tools**
 
 ### React Integration
 - **[React Integration Guide](docs/react-integration.md)** - Hooks and patterns for React

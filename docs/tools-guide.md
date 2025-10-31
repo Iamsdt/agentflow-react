@@ -44,21 +44,82 @@ Complete guide to tool registration, execution, and best practices in agentflow-
 
 ## When to Use Tools
 
-### ✅ Use Tools When You Need To:
+### Remote Tools vs Backend Tools
 
-- **Access real-time data** that the agent doesn't have (weather, prices, dates)
-- **Perform calculations** beyond the agent's capabilities
-- **Interact with external systems** (databases, APIs, file systems)
-- **Execute custom business logic** specific to your application
-- **Maintain security** by keeping sensitive operations on your infrastructure
-- **Enforce access control** based on user permissions
+**IMPORTANT:** AgentFlow supports two types of tools:
 
-### ❌ Don't Use Tools For:
+1. **Backend Tools** (Defined in Python AgentFlow library)
+   - ✅ **PREFERRED for most use cases**
+   - Run on the server side as part of your agent graph
+   - More secure, efficient, and easier to manage
+   - Full access to server resources and databases
+   - Better performance (no network round-trips for tool execution)
 
-- **Simple text responses** the agent can generate directly
-- **Static knowledge** the agent already knows
-- **Complex reasoning** the agent can do without external help
-- **Actions that should be server-side** (better done in the agent graph)
+2. **Remote Tools** (Defined in this client library)
+   - ⚠️ **ONLY use when you need browser-level APIs**
+   - Run on the client side (browser or Node.js)
+   - Required for: Browser APIs, client-side storage, DOM manipulation, WebRTC, etc.
+   - Example use cases: `localStorage`, `navigator.geolocation`, file uploads from user device
+
+**Rule of Thumb:** If your tool doesn't need browser-specific APIs, define it as a backend tool in your Python agent graph instead.
+
+### ✅ Use Remote Tools When You Need To:
+
+- **Access browser-only APIs** (localStorage, sessionStorage, IndexedDB)
+- **Get client device information** (navigator.geolocation, navigator.mediaDevices)
+- **Manipulate the DOM** directly from the agent
+- **Handle file uploads** from the user's device
+- **Use WebRTC** or other browser-specific features
+- **Access client-side state** that exists only in the browser
+
+### ❌ Don't Use Remote Tools For:
+
+- **Server-side operations** (use backend tools instead)
+- **Database queries** (should be backend tools)
+- **External API calls** (better as backend tools for security)
+- **Simple calculations** (the agent can do these or use backend tools)
+- **File system operations on the server** (use backend tools)
+- **Authentication and authorization** (must be backend tools)
+
+### Backend Tools (Preferred)
+
+For most use cases, define your tools in the Python AgentFlow library as part of your agent graph:
+
+```python
+# Python backend - PREFERRED APPROACH
+from agentflow import tool
+
+@tool
+def get_weather(location: str) -> dict:
+    """Get current weather for a location"""
+    # This runs on your server with full access to your infrastructure
+    return fetch_weather_from_api(location)
+```
+
+### Remote Tools (Client-side only)
+
+Only use remote tools when you need browser APIs:
+
+```typescript
+// JavaScript client - ONLY for browser APIs
+client.registerTool({
+  node: 'assistant',
+  name: 'get_user_location',
+  description: 'Get user location from browser',
+  handler: async () => {
+    // This MUST run in the browser
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => resolve({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        }),
+        (error) => reject(error)
+      );
+    });
+  }
+});
+```
 
 ### Example Decision Tree
 
