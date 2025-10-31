@@ -347,7 +347,7 @@ When using `invoke()`, the client automatically handles the tool execution loop:
 
 ```typescript
 const result = await client.invoke({
-  messages: [Message.user("What's the weather in Tokyo?")],
+  messages: [Message.text_message("What's the weather in Tokyo?", 'user')],
   recursion_limit: 10  // Max tool execution iterations
 });
 
@@ -385,7 +385,7 @@ With `stream()`, you're responsible for the tool loop:
 ```typescript
 import { Message } from 'agentflow-react';
 
-let messages = [Message.user("What's the weather in Tokyo?")];
+let messages = [Message.text_message("What's the weather in Tokyo?", 'user')];
 let continueLoop = true;
 let iterations = 0;
 const maxIterations = 10;
@@ -427,7 +427,7 @@ The `recursion_limit` parameter prevents infinite tool loops:
 
 ```typescript
 const result = await client.invoke({
-  messages: [Message.user("Keep calculating until you reach 1000")],
+  messages: [Message.text_message("Keep calculating until you reach 1000", 'user')],
   recursion_limit: 25  // Stop after 25 iterations (default)
 });
 
@@ -1048,7 +1048,7 @@ describe('Weather Tool Integration', () => {
   
   it('should execute weather tool when asked', async () => {
     const result = await client.invoke({
-      messages: [Message.user("What's the weather in Paris?")]
+      messages: [Message.text_message("What's the weather in Paris?", 'user')]
     });
     
     // Verify tool was executed

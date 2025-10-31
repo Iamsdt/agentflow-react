@@ -189,7 +189,7 @@ export function DynamicFormBuilder() {
       // Send form data to agent
       const response: InvokeResult = await client.invoke({
         messages: [
-          Message.user(`Process this form data: ${JSON.stringify(formData, null, 2)}`)
+          Message.text_message(`Process this form data: ${JSON.stringify(formData, null, 2)}`, 'user')
         ],
         config: {
           initial_state: formData

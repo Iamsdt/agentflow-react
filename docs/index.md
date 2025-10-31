@@ -1,6 +1,6 @@
-# AgentFlow React - Documentation
+# AgentFlow Client - Documentation
 
-Welcome to the **AgentFlow React** documentation! This guide will help you integrate the AgentFlow multi-agent API into your React applications.
+Welcome to the **AgentFlow Client** documentation! This guide will help you integrate the AgentFlow multi-agent API into your applications.
 
 ## 🚀 Quick Links
 

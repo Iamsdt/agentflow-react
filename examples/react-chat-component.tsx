@@ -110,10 +110,10 @@ export function SimpleChat() {
       const apiMessages = [
         ...messages.map(m => 
           m.role === 'user' 
-            ? Message.user(m.content) 
-            : Message.assistant(m.content)
+            ? Message.text_message(m.content, 'user') 
+            : Message.text_message(m.content, 'assistant')
         ),
-        Message.user(input)
+        Message.text_message(input, 'user')
       ];
 
       // Invoke the agent

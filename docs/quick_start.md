@@ -139,7 +139,7 @@ import { Message } from 'agentflow-react';
 
 const result = await client.invoke({
   messages: [
-    Message.user('What is the weather like today?')
+    Message.text_message('What is the weather like today?', 'user')
   ],
   granularity: 'full'
 });
@@ -208,7 +208,7 @@ client.registerTool({
 // Step 2: Invoke with automatic tool execution
 const result = await client.invoke({
   messages: [
-    Message.user("What's the weather in San Francisco and what's 25 + 17?")
+    Message.text_message("What's the weather in San Francisco and what's 25 + 17?", 'user')
   ],
   granularity: 'full',
   recursion_limit: 10,
@@ -243,7 +243,7 @@ console.log('Streaming response:');
 
 for await (const chunk of client.stream({
   messages: [
-    Message.user('Tell me a short story about a robot')
+    Message.text_message('Tell me a short story about a robot', 'user')
   ],
   granularity: 'full'
 })) {
@@ -487,7 +487,7 @@ async function main() {
     console.log('\nAgent response:');
     for await (const chunk of client.stream({
       messages: [
-        Message.user('Help me find information about our project timeline')
+        Message.text_message('Help me find information about our project timeline', 'user')
       ],
       granularity: 'full'
     })) {

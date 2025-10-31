@@ -186,17 +186,38 @@ The main message class with helper methods.
 
 ```typescript
 class Message {
+  message_id: string | null;
   role: 'user' | 'assistant' | 'system' | 'tool';
   content: ContentBlock[];
+  delta: boolean;
+  tools_calls?: Record<string, any>[];
+  timestamp: number;
+  metadata: Record<string, any>;
+  usages?: TokenUsages;
+  raw?: Record<string, any>;
   
-  constructor(role: string, content: ContentBlock[]);
+  constructor(
+    role: 'user' | 'assistant' | 'system' | 'tool',
+    content: ContentBlock[],
+    message_id?: string | null
+  );
   
   // Static helper methods
-  static user(text: string): Message;
-  static assistant(text: string): Message;
-  static system(text: string): Message;
-  static tool_message(results: ToolResultBlock[]): Message;
-  static text_message(text: string, role: string): Message;
+  static text_message(
+    content: string,
+    role?: 'user' | 'assistant' | 'system' | 'tool',
+    message_id?: string | null
+  ): Message;
+  
+  static tool_message(
+    content: ContentBlock[],
+    message_id?: string | null,
+    meta?: Record<string, any>
+  ): Message;
+  
+  // Instance methods
+  text(): string;
+  attach_media(media: MediaRef, as_type: 'image' | 'audio' | 'video' | 'document'): void;
 }
 ```
 
@@ -210,71 +231,140 @@ type ContentBlock =
   | AudioBlock 
   | VideoBlock 
   | DocumentBlock
+  | DataBlock
+  | ToolCallBlock
   | RemoteToolCallBlock 
-  | ToolResultBlock;
+  | ToolResultBlock
+  | ReasoningBlock
+  | AnnotationBlock
+  | ErrorBlock;
 
 // Text block
-interface TextBlock {
-  type: 'text';
+class TextBlock {
+  type: 'text' = 'text';
   text: string;
-  annotations?: AnnotationRef[];
+  annotations: AnnotationRef[];
+  
+  constructor(text?: string, annotations?: AnnotationRef[]);
 }
 
 // Image block
-interface ImageBlock {
-  type: 'image';
+class ImageBlock {
+  type: 'image' = 'image';
   media: MediaRef;
   alt_text?: string;
   bbox?: number[];
+  
+  constructor(media?: MediaRef, alt_text?: string, bbox?: number[]);
 }
 
 // Audio block
-interface AudioBlock {
-  type: 'audio';
+class AudioBlock {
+  type: 'audio' = 'audio';
   media: MediaRef;
   transcript?: string;
   sample_rate?: number;
   channels?: number;
+  
+  constructor(media?: MediaRef, transcript?: string, sample_rate?: number, channels?: number);
 }
 
 // Video block
-interface VideoBlock {
-  type: 'video';
+class VideoBlock {
+  type: 'video' = 'video';
   media: MediaRef;
-  transcript?: string;
-  fps?: number;
+  thumbnail?: MediaRef;
+  
+  constructor(media?: MediaRef, thumbnail?: MediaRef);
 }
 
 // Document block
-interface DocumentBlock {
-  type: 'document';
+class DocumentBlock {
+  type: 'document' = 'document';
   media: MediaRef;
-  title?: string;
-  format?: string;
+  pages?: number[];
+  excerpt?: string;
+  
+  constructor(media?: MediaRef, pages?: number[], excerpt?: string);
 }
 
-// Remote tool call (from API)
-interface RemoteToolCallBlock {
-  type: 'remote_tool_call';
+// Data block
+class DataBlock {
+  type: 'data' = 'data';
+  mime_type: string;
+  data_base64?: string;
+  media?: MediaRef;
+  
+  constructor(mime_type?: string, data_base64?: string, media?: MediaRef);
+}
+
+// Tool call block
+class ToolCallBlock {
+  type: 'tool_call' = 'tool_call';
   id: string;
   name: string;
   args: Record<string, any>;
+  tool_type?: string;
+  
+  constructor(id?: string, name?: string, args?: Record<string, any>, tool_type?: string);
+}
+
+// Remote tool call (from API)
+class RemoteToolCallBlock {
+  type: 'remote_tool_call' = 'remote_tool_call';
+  id: string;
+  name: string;
+  args: Record<string, any>;
+  tool_type: string;
+  
+  constructor(id?: string, name?: string, args?: Record<string, any>, tool_type?: string);
 }
 
 // Tool result (sent back to API)
-interface ToolResultBlock {
-  type: 'tool_result';
+class ToolResultBlock {
+  type: 'tool_result' = 'tool_result';
   call_id: string;
   output: any;
-  status: 'completed' | 'failed';
   is_error: boolean;
+  status?: 'completed' | 'failed';
+  
+  constructor(props: { call_id: string; output: any; status: 'completed' | 'failed'; is_error: boolean });
+}
+
+// Reasoning block
+class ReasoningBlock {
+  type: 'reasoning' = 'reasoning';
+  summary: string;
+  details?: string[];
+  
+  constructor(summary?: string, details?: string[]);
+}
+
+// Annotation block
+class AnnotationBlock {
+  type: 'annotation' = 'annotation';
+  kind: 'citation' | 'note';
+  refs: AnnotationRef[];
+  spans?: [number, number][];
+  
+  constructor(kind?: 'citation' | 'note', refs?: AnnotationRef[], spans?: [number, number][]);
+}
+
+// Error block
+class ErrorBlock {
+  type: 'error' = 'error';
+  message: string;
+  code?: string;
+  data?: Record<string, any>;
+  
+  constructor(message?: string, code?: string, data?: Record<string, any>);
 }
 ```
 
 ### Media References
 
 ```typescript
-interface MediaRef {
+class MediaRef {
   kind: 'url' | 'file_id' | 'data';
   url?: string;
   file_id?: string;
@@ -287,14 +377,42 @@ interface MediaRef {
   height?: number;
   duration_ms?: number;
   page?: number;
+  
+  constructor(
+    kind?: 'url' | 'file_id' | 'data',
+    url?: string,
+    file_id?: string,
+    data_base64?: string,
+    mime_type?: string,
+    size_bytes?: number,
+    sha256?: string,
+    filename?: string,
+    width?: number,
+    height?: number,
+    duration_ms?: number,
+    page?: number
+  );
 }
 
-interface AnnotationRef {
+class AnnotationRef {
   url?: string;
   file_id?: string;
   page?: number;
   index?: number;
   title?: string;
+  
+  constructor(url?: string, file_id?: string, page?: number, index?: number, title?: string);
+}
+
+class TokenUsages {
+  completion_tokens: number;
+  prompt_tokens: number;
+  total_tokens: number;
+  reasoning_tokens: number;
+  cache_creation_input_tokens: number;
+  cache_read_input_tokens: number;
+  image_tokens?: number;
+  audio_tokens?: number;
 }
 ```
 
@@ -304,7 +422,7 @@ interface AnnotationRef {
 import { Message, TextBlock, ImageBlock, MediaRef } from 'agentflow-react';
 
 // Simple text message
-const userMessage: Message = Message.user('Hello');
+const userMessage: Message = Message.text_message('Hello', 'user');
 
 // Message with multiple blocks
 const complexMessage = new Message('user', [
@@ -358,14 +476,17 @@ type InvokeCallback = (result: InvokePartialResult) => void;
 **Example:**
 
 ```typescript
+**Example:**
+
+```typescript
 const request: InvokeRequest = {
-  messages: [Message.user('What is the weather?')],
+  messages: [Message.text_message('What is the weather?', 'user')],
   granularity: 'full',
   recursion_limit: 10,
   on_progress: (partial: InvokePartialResult) => {
     console.log(`Iteration ${partial.iterations}`);
   }
-};
+```
 
 const result: InvokeResult = await client.invoke(request);
 ```
@@ -953,7 +1074,7 @@ function createExtendedMessage(
   userId: string,
   sessionId: string
 ): ExtendedMessage {
-  const message = Message.user(text) as ExtendedMessage;
+  const message = Message.text_message(text, 'user') as ExtendedMessage;
   message.metadata = {
     timestamp: new Date(),
     userId,
@@ -1087,7 +1208,7 @@ client.registerTool(calculatorTool);
 // Invoke with types
 async function chat(userInput: string): Promise<InvokeResult> {
   const request: InvokeRequest = {
-    messages: [Message.user(userInput)],
+    messages: [Message.text_message(userInput, 'user')],
     granularity: 'full',
     recursion_limit: 10
   };

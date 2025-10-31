@@ -247,7 +247,7 @@ Default timeout is 5 minutes (300,000ms). Long-running operations exceed this.
    Reduce tool execution iterations:
    ```typescript
    const result = await client.invoke({
-     messages: [Message.user('...')],
+     messages: [Message.text_message('...', 'user')],
      recursion_limit: 10  // Default is 25
    });
    ```
@@ -551,7 +551,7 @@ import { AgentFlowClient, InvokeResult, Message } from 'agentflow-react';
 const client: AgentFlowClient = new AgentFlowClient({ /* ... */ });
 
 const result: InvokeResult = await client.invoke({
-  messages: [Message.user('Hello')]
+  messages: [Message.text_message('Hello', 'user')]
 });
 
 // Now result.messages, result.state, etc. are properly typed
@@ -575,8 +575,8 @@ import { Message } from 'agentflow-react';
 
 // ✅ Correct
 const messages = [
-  Message.user('Hello'),
-  Message.assistant('Hi there!')
+  Message.text_message('Hello', 'user'),
+  Message.text_message('Hi there!', 'assistant')
 ];
 
 // Or with type
@@ -754,7 +754,7 @@ function MyComponent() {
   
   useEffect(() => {
     // ❌ Creates new array every render
-    setMessages([Message.user('Hello')]);
+    setMessages([Message.text_message('Hello', 'user')]);
   }, []);  // Missing dependency warning
 }
 ```
@@ -767,12 +767,12 @@ Initialize state properly:
 function MyComponent() {
   // ✅ Initialize once
   const [messages, setMessages] = useState(() => [
-    Message.user('Hello')
+    Message.text_message('Hello', 'user')
   ]);
   
   // Or if you must use useEffect
   useEffect(() => {
-    setMessages([Message.user('Hello')]);
+    setMessages([Message.text_message('Hello', 'user')]);
   }, []);  // Empty array = run once
 }
 ```
@@ -827,12 +827,12 @@ console.log(result.messages);  // []
 ```typescript
 // First call
 await client.invoke({
-  messages: [Message.user('Remember my name is Alice')]
+  messages: [Message.text_message('Remember my name is Alice', 'user')]
 });
 
 // Second call - agent doesn't remember
 await client.invoke({
-  messages: [Message.user('What is my name?')]
+  messages: [Message.text_message('What is my name?', 'user')]
 });
 ```
 
@@ -848,13 +848,13 @@ const threadId = 'user_123_session_456';
 
 // First call
 await client.invoke({
-  messages: [Message.user('Remember my name is Alice')],
+  messages: [Message.text_message('Remember my name is Alice', 'user')],
   config: { thread_id: threadId }
 });
 
 // Second call - agent remembers
 await client.invoke({
-  messages: [Message.user('What is my name?')],
+  messages: [Message.text_message('What is my name?', 'user')],
   config: { thread_id: threadId }
 });
 ```
@@ -865,7 +865,7 @@ Or manage message history manually:
 const [messageHistory, setMessageHistory] = useState<Message[]>([]);
 
 async function sendMessage(content: string) {
-  const newMessage = Message.user(content);
+  const newMessage = Message.text_message(content, 'user');
   const allMessages = [...messageHistory, newMessage];
   
   const result = await client.invoke({

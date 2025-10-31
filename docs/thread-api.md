@@ -519,23 +519,23 @@ import { Message } from 'agentflow-react';
 // Add user message
 await client.addThreadMessages('thread_123', {
   messages: [
-    Message.user('What is the weather today?')
+    Message.text_message('What is the weather today?', 'user')
   ]
 });
 
 // Add multiple messages
 await client.addThreadMessages('thread_123', {
   messages: [
-    Message.user('Tell me about your services'),
-    Message.assistant('We offer three main services: A, B, and C'),
-    Message.user('Tell me more about service B')
+    Message.text_message('Tell me about your services', 'user'),
+    Message.text_message('We offer three main services: A, B, and C', 'assistant'),
+    Message.text_message('Tell me more about service B', 'user')
   ]
 });
 
 // Add system message
 await client.addThreadMessages('thread_123', {
   messages: [
-    Message.system('User preference: concise responses')
+    Message.text_message('User preference: concise responses', 'system')
   ]
 });
 ```
@@ -544,21 +544,21 @@ await client.addThreadMessages('thread_123', {
 
 ```typescript
 // User message
-Message.user('User input text')
+Message.text_message('User input text', 'user')
 
 // Assistant message
-Message.assistant('Assistant response')
+Message.text_message('Assistant response', 'assistant')
 
 // System message
-Message.system('System instructions')
+Message.text_message('System instructions', 'system')
 
 // Tool message
-Message.tool('Tool output')
+Message.tool_message([/* tool result blocks */])
 
 // Message with content blocks
-Message.assistant([
-  { type: 'text', text: 'Here is the result:' },
-  { type: 'data', data: { value: 42 } }
+new Message('assistant', [
+  new TextBlock('Here is the result:'),
+  new DataBlock('application/json', JSON.stringify({ value: 42 }))
 ])
 ```
 
@@ -626,8 +626,8 @@ async function initializeUserSession(userId: string) {
   // Add welcome message
   await client.addThreadMessages(threadId, {
     messages: [
-      Message.system('You are a helpful assistant'),
-      Message.assistant('Hello! How can I help you today?')
+      Message.text_message('You are a helpful assistant', 'system'),
+      Message.text_message('Hello! How can I help you today?', 'assistant')
     ]
   });
   
@@ -638,7 +638,7 @@ async function initializeUserSession(userId: string) {
 async function handleUserMessage(threadId: string, userInput: string) {
   // Add user message
   await client.addThreadMessages(threadId, {
-    messages: [Message.user(userInput)]
+    messages: [Message.text_message(userInput, 'user')]
   });
   
   // Get current state for context
@@ -646,7 +646,7 @@ async function handleUserMessage(threadId: string, userInput: string) {
   
   // Execute agent
   const result = await client.invoke({
-    messages: [Message.user(userInput)],
+    messages: [Message.text_message(userInput, 'user')],
     config: {
       thread_id: threadId,
       state: state.data.state
@@ -999,7 +999,7 @@ async function conversationExample() {
     // 2. Add messages
     await client.addThreadMessages(threadId, {
       messages: [
-        Message.user('Hello, I need help')
+        Message.text_message('Hello, I need help', 'user')
       ]
     });
     
@@ -1009,7 +1009,7 @@ async function conversationExample() {
     
     // 4. Execute agent (simplified)
     const result = await client.invoke({
-      messages: [Message.user('Hello, I need help')],
+      messages: [Message.text_message('Hello, I need help', 'user')],
       config: { thread_id: threadId }
     });
     

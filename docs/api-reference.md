@@ -647,8 +647,8 @@ import { Message } from 'agentflow-react';
 
 const response = await client.addThreadMessages('thread_123', {
   messages: [
-    Message.user('Hello, I need help'),
-    Message.assistant('How can I assist you today?')
+    Message.text_message('Hello, I need help', 'user'),
+    Message.text_message('How can I assist you today?', 'assistant')
   ]
 });
 
@@ -784,7 +784,7 @@ client.registerTool({
 // Invoke with automatic tool execution
 const result = await client.invoke({
   messages: [
-    Message.user("What's the weather in San Francisco?")
+    Message.text_message("What's the weather in San Francisco?", 'user')
   ],
   granularity: 'full',
   recursion_limit: 10,
@@ -866,7 +866,7 @@ import { Message } from 'agentflow-react';
 try {
   for await (const chunk of client.stream({
     messages: [
-      Message.user("Tell me a story")
+      Message.text_message("Tell me a story", 'user')
     ],
     granularity: 'full'
   })) {
