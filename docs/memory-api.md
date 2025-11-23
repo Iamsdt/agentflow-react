@@ -100,7 +100,7 @@ interface StoreMemoryResponse {
 
 **Example:**
 ```typescript
-import { MemoryType } from 'agentflow-react';
+import { MemoryType } from '@10xscale/agentflow-client';
 
 // Store a semantic memory
 const response = await client.storeMemory({
@@ -183,7 +183,7 @@ import {
   MemoryType, 
   RetrievalStrategy, 
   DistanceMetric 
-} from 'agentflow-react';
+} from '@10xscale/agentflow-client';
 
 // Basic search
 const results = await client.searchMemory({
@@ -381,7 +381,7 @@ interface ListMemoriesResponse {
 
 **Example:**
 ```typescript
-import { MemoryType } from 'agentflow-react';
+import { MemoryType } from '@10xscale/agentflow-client';
 
 // List all memories
 const all = await client.listMemories();
@@ -447,7 +447,7 @@ interface ForgetMemoriesResponse {
 
 **Example:**
 ```typescript
-import { MemoryType } from 'agentflow-react';
+import { MemoryType } from '@10xscale/agentflow-client';
 
 // Delete specific memories
 const result1 = await client.forgetMemories({
@@ -573,7 +573,7 @@ const euclidean = await client.searchMemory({
 ### 1. User Preferences Management
 
 ```typescript
-import { MemoryType } from 'agentflow-react';
+import { MemoryType } from '@10xscale/agentflow-client';
 
 // Store preference
 await client.storeMemory({
@@ -600,7 +600,7 @@ const prefs = await client.searchMemory({
 ### 2. Conversation History
 
 ```typescript
-import { MemoryType } from 'agentflow-react';
+import { MemoryType } from '@10xscale/agentflow-client';
 
 // Store conversation turn
 await client.storeMemory({
@@ -628,7 +628,7 @@ const context = await client.searchMemory({
 ### 3. Knowledge Base
 
 ```typescript
-import { MemoryType } from 'agentflow-react';
+import { MemoryType } from '@10xscale/agentflow-client';
 
 // Store knowledge
 await client.storeMemory({
@@ -654,7 +654,7 @@ const policies = await client.searchMemory({
 ### 4. Entity Relationships
 
 ```typescript
-import { MemoryType } from 'agentflow-react';
+import { MemoryType } from '@10xscale/agentflow-client';
 
 // Store entity
 await client.storeMemory({
@@ -691,7 +691,7 @@ const related = await client.searchMemory({
 ### 5. Procedural Knowledge
 
 ```typescript
-import { MemoryType } from 'agentflow-react';
+import { MemoryType } from '@10xscale/agentflow-client';
 
 // Store procedure
 await client.storeMemory({
@@ -847,7 +847,7 @@ import {
   AgentFlowClient, 
   MemoryType, 
   RetrievalStrategy 
-} from 'agentflow-react';
+} from '@10xscale/agentflow-client';
 
 const client = new AgentFlowClient({
   baseUrl: 'https://api.example.com',
@@ -918,7 +918,7 @@ async function manageUserMemories(userId: string) {
 All memory operations may throw errors. See [Error Handling Guide](./error-handling.md) for details.
 
 ```typescript
-import { AgentFlowError, NotFoundError } from 'agentflow-react';
+import { AgentFlowError, NotFoundError } from '@10xscale/agentflow-client';
 
 try {
   const memory = await client.getMemory('mem_123');

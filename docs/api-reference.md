@@ -1,6 +1,6 @@
 # AgentFlow API Reference
 
-Complete API reference for all endpoints in the agentflow-react library.
+Complete API reference for all endpoints in the @10xscale/agentflow-client library.
 
 ## Table of Contents
 
@@ -42,7 +42,7 @@ Complete API reference for all endpoints in the agentflow-react library.
 Initialize the AgentFlow client with configuration.
 
 ```typescript
-import { AgentFlowClient } from 'agentflow-react';
+import { AgentFlowClient } from '@10xscale/agentflow-client';
 
 const client = new AgentFlowClient({
   baseUrl: string,      // Required: API base URL
@@ -643,7 +643,7 @@ interface AddThreadMessagesResponse {
 
 **Example:**
 ```typescript
-import { Message } from 'agentflow-react';
+import { Message } from '@10xscale/agentflow-client';
 
 const response = await client.addThreadMessages('thread_123', {
   messages: [
@@ -762,7 +762,7 @@ The invoke endpoint automatically:
 
 **Example:**
 ```typescript
-import { Message } from 'agentflow-react';
+import { Message } from '@10xscale/agentflow-client';
 
 // Register tools first
 // ⚠️ IMPORTANT: Only use remote tools for browser-level APIs
@@ -864,7 +864,7 @@ type StreamEventType =
 
 **Example:**
 ```typescript
-import { Message } from 'agentflow-react';
+import { Message } from '@10xscale/agentflow-client';
 
 try {
   for await (const chunk of client.stream({
@@ -975,7 +975,7 @@ interface StoreMemoryResponse {
 
 **Example:**
 ```typescript
-import { MemoryType } from 'agentflow-react';
+import { MemoryType } from '@10xscale/agentflow-client';
 
 const response = await client.storeMemory({
   content: 'User prefers dark mode',
@@ -1077,7 +1077,7 @@ interface MemoryResult {
 
 **Example:**
 ```typescript
-import { MemoryType, RetrievalStrategy, DistanceMetric } from 'agentflow-react';
+import { MemoryType, RetrievalStrategy, DistanceMetric } from '@10xscale/agentflow-client';
 
 const response = await client.searchMemory({
   query: 'user interface preferences',
@@ -1303,7 +1303,7 @@ interface ListMemoriesResponse {
 
 **Example:**
 ```typescript
-import { MemoryType } from 'agentflow-react';
+import { MemoryType } from '@10xscale/agentflow-client';
 
 // List all semantic memories
 const response = await client.listMemories({
@@ -1364,7 +1364,7 @@ interface ForgetMemoriesResponse {
 
 **Example:**
 ```typescript
-import { MemoryType } from 'agentflow-react';
+import { MemoryType } from '@10xscale/agentflow-client';
 
 // Delete specific memories
 const response1 = await client.forgetMemories({

@@ -79,7 +79,7 @@ enum StreamEventType {
 ### Basic Streaming Example
 
 ```typescript
-import { AgentFlowClient, Message } from 'agentflow-react';
+import { AgentFlowClient, Message } from '@10xscale/agentflow-client';
 
 const client = new AgentFlowClient({
     baseUrl: 'http://127.0.0.1:8000',
@@ -128,7 +128,7 @@ console.log('Stream completed');
 
 ```typescript
 import { useEffect, useRef, useState } from 'react';
-import { AgentFlowClient, Message } from 'agentflow-react';
+import { AgentFlowClient, Message } from '@10xscale/agentflow-client';
 
 function ChatComponent() {
     const [messages, setMessages] = useState<Message[]>([]);
@@ -213,7 +213,7 @@ For scenarios where the server sends remote tool calls during streaming, you can
 **⚠️ Note:** Remote tool calls are only for browser-level APIs. Most tools should be defined in your Python backend. See [Tools Guide](./tools-guide.md#remote-tools-vs-backend-tools).
 
 ```typescript
-import { AgentFlowClient, Message, StreamEventType } from 'agentflow-react';
+import { AgentFlowClient, Message, StreamEventType } from '@10xscale/agentflow-client';
 
 async function streamWithToolExecution(client: AgentFlowClient, userMessage: Message) {
     const stream = client.stream([userMessage], {

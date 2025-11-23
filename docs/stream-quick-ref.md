@@ -3,7 +3,7 @@
 ## Installation & Setup
 
 ```typescript
-import { AgentFlowClient, Message } from 'agentflow-react';
+import { AgentFlowClient, Message } from '@10xscale/agentflow-client';
 
 const client = new AgentFlowClient({
     baseUrl: 'http://localhost:8000',
@@ -116,7 +116,7 @@ import {
     StreamContext,
     StreamRequest,
     StreamMetadata
-} from 'agentflow-react';
+} from '@10xscale/agentflow-client';
 ```
 
 ## Common Patterns

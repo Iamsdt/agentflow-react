@@ -23,7 +23,7 @@ import {
   FieldSchema,
   InvokeResult,
   Message
-} from 'agentflow-react';
+} from '@10xscale/agentflow-client';
 
 // ============================================
 // Context Setup

@@ -1,11 +1,11 @@
 # React Integration Guide
 
-This guide shows you how to integrate **AgentFlow React** into your React applications with best practices, custom hooks, and common patterns.
+This guide shows you how to integrate **AgentFlow Client** into your React applications with best practices, custom hooks, and common patterns.
 
 ## 📦 Installation
 
 ```bash
-npm install agentflow-react react
+npm install @10xscale/agentflow-client react
 ```
 
 ## 🎯 Core Concepts
@@ -44,7 +44,7 @@ The recommended approach is to use React Context to provide the client throughou
 ```typescript
 // contexts/AgentFlowContext.tsx
 import React, { createContext, useContext, ReactNode } from 'react';
-import { AgentFlowClient } from 'agentflow-react';
+import { AgentFlowClient } from '@10xscale/agentflow-client';
 
 interface AgentFlowContextType {
   client: AgentFlowClient;
@@ -133,7 +133,7 @@ Manage invoke requests with loading and error states:
 ```typescript
 // hooks/useInvoke.ts
 import { useState } from 'react';
-import { Message, InvokeResult } from 'agentflow-react';
+import { Message, InvokeResult } from '@10xscale/agentflow-client';
 import { useAgentFlow } from '../contexts/AgentFlowContext';
 
 interface UseInvokeOptions {
@@ -213,7 +213,7 @@ Handle streaming responses with real-time updates:
 ```typescript
 // hooks/useStream.ts
 import { useState, useCallback } from 'react';
-import { Message, StreamChunk } from 'agentflow-react';
+import { Message, StreamChunk } from '@10xscale/agentflow-client';
 import { useAgentFlow } from '../contexts/AgentFlowContext';
 
 interface UseStreamOptions {
@@ -305,7 +305,7 @@ Fetch and cache state schema for form generation:
 ```typescript
 // hooks/useStateSchema.ts
 import { useState, useEffect } from 'react';
-import { AgentStateSchema } from 'agentflow-react';
+import { AgentStateSchema } from '@10xscale/agentflow-client';
 import { useAgentFlow } from '../contexts/AgentFlowContext';
 
 export function useStateSchema() {
@@ -377,7 +377,7 @@ Manage conversation message history:
 ```typescript
 // hooks/useMessages.ts
 import { useState, useCallback } from 'react';
-import { Message } from 'agentflow-react';
+import { Message } from '@10xscale/agentflow-client';
 
 export function useMessages(initialMessages: Message[] = []) {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
@@ -591,7 +591,7 @@ export function AgentFlowProvider({ children }: { children: ReactNode }) {
 ### Mock Client for Tests
 
 ```typescript
-// __mocks__/agentflow-react.ts
+// __mocks__/@10xscale/agentflow-client.ts
 export class AgentFlowClient {
   async invoke(messages: any[]) {
     return {
@@ -622,7 +622,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { AgentFlowProvider } from '../contexts/AgentFlowContext';
 import Chat from '../components/Chat';
 
-jest.mock('agentflow-react');
+jest.mock('@10xscale/agentflow-client');
 
 test('sends message and displays response', async () => {
   render(
@@ -686,7 +686,7 @@ const agentflowSlice = createSlice({
 ```typescript
 // store/agentflowStore.ts
 import create from 'zustand';
-import { Message } from 'agentflow-react';
+import { Message } from '@10xscale/agentflow-client';
 import { agentFlowClient } from '../utils/agentflow';
 
 interface AgentFlowStore {

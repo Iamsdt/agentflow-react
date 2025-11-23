@@ -1,6 +1,6 @@
 # Error Handling Guide
 
-Complete guide to handling errors in agentflow-react.
+Complete guide to handling errors in @10xscale/agentflow-client.
 
 ## Table of Contents
 
@@ -18,7 +18,7 @@ Complete guide to handling errors in agentflow-react.
 
 ## Overview
 
-The agentflow-react library provides structured error handling with specific error classes for different HTTP status codes. All errors extend the base `AgentFlowError` class and include rich information like request IDs, timestamps, and detailed error messages.
+The @10xscale/agentflow-client library provides structured error handling with specific error classes for different HTTP status codes. All errors extend the base `AgentFlowError` class and include rich information like request IDs, timestamps, and detailed error messages.
 
 ### Benefits
 
@@ -32,7 +32,7 @@ The agentflow-react library provides structured error handling with specific err
 
 ## Error Classes
 
-All error classes are exported from `agentflow-react` and can be imported directly:
+All error classes are exported from `@10xscale/agentflow-client` and can be imported directly:
 
 ```typescript
 import { 
@@ -43,7 +43,7 @@ import {
   NotFoundError,
   ValidationError,
   ServerError
-} from 'agentflow-react';
+} from '@10xscale/agentflow-client';
 ```
 
 ### Error Class Hierarchy
@@ -99,7 +99,7 @@ The library automatically parses this and creates the appropriate error class.
 ### Basic Error Handling
 
 ```typescript
-import { AgentFlowClient, AgentFlowError } from 'agentflow-react';
+import { AgentFlowClient, AgentFlowError } from '@10xscale/agentflow-client';
 
 const client = new AgentFlowClient({
   baseUrl: 'https://api.example.com',
@@ -130,7 +130,7 @@ import {
   AuthenticationError,
   ValidationError,
   ServerError
-} from 'agentflow-react';
+} from '@10xscale/agentflow-client';
 
 try {
   const thread = await client.threadDetails('thread_123');
@@ -190,7 +190,7 @@ interface ErrorDetail {
 Occurs when the request data is malformed or invalid.
 
 ```typescript
-import { BadRequestError } from 'agentflow-react';
+import { BadRequestError } from '@10xscale/agentflow-client';
 
 try {
   await client.updateThreadState('thread_123', {
@@ -213,7 +213,7 @@ try {
 Occurs when the auth token is missing, invalid, or expired.
 
 ```typescript
-import { AuthenticationError } from 'agentflow-react';
+import { AuthenticationError } from '@10xscale/agentflow-client';
 
 try {
   await client.threads();
@@ -235,7 +235,7 @@ try {
 Occurs when the user doesn't have permission to perform the action.
 
 ```typescript
-import { PermissionError } from 'agentflow-react';
+import { PermissionError } from '@10xscale/agentflow-client';
 
 try {
   await client.deleteThread('thread_123');
@@ -255,7 +255,7 @@ try {
 Occurs when the requested resource doesn't exist.
 
 ```typescript
-import { NotFoundError } from 'agentflow-react';
+import { NotFoundError } from '@10xscale/agentflow-client';
 
 try {
   const message = await client.threadMessage('thread_123', 'msg_999');
@@ -277,7 +277,7 @@ try {
 Occurs when field validation fails. **Most detailed error type** with field-level information.
 
 ```typescript
-import { ValidationError } from 'agentflow-react';
+import { ValidationError } from '@10xscale/agentflow-client';
 
 try {
   await client.updateThreadState('thread_123', {
@@ -314,7 +314,7 @@ try {
 Occurs when there's a server-side issue.
 
 ```typescript
-import { ServerError } from 'agentflow-react';
+import { ServerError } from '@10xscale/agentflow-client';
 
 try {
   await client.invoke(request);
@@ -374,7 +374,7 @@ Validation errors (422) include detailed field-level error information.
 ### Handling Validation Errors in Forms
 
 ```typescript
-import { ValidationError } from 'agentflow-react';
+import { ValidationError } from '@10xscale/agentflow-client';
 
 async function submitForm(formData: any) {
   try {
@@ -413,7 +413,7 @@ async function submitForm(formData: any) {
 
 ```typescript
 import { useState } from 'react';
-import { ValidationError } from 'agentflow-react';
+import { ValidationError } from '@10xscale/agentflow-client';
 
 function MyForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -610,7 +610,7 @@ import {
   ValidationError,
   ServerError,
   Message
-} from 'agentflow-react';
+} from '@10xscale/agentflow-client';
 
 class AgentFlowService {
   private client: AgentFlowClient;
@@ -691,7 +691,7 @@ class AgentFlowService {
 
 ```typescript
 import { useState, useCallback } from 'react';
-import { AgentFlowClient, AgentFlowError, ValidationError } from 'agentflow-react';
+import { AgentFlowClient, AgentFlowError, ValidationError } from '@10xscale/agentflow-client';
 
 function useAgentFlow(client: AgentFlowClient) {
   const [loading, setLoading] = useState(false);
@@ -741,7 +741,7 @@ function useAgentFlow(client: AgentFlowClient) {
 
 ## Summary
 
-- **Import error classes** from `agentflow-react`
+- **Import error classes** from `@10xscale/agentflow-client`
 - **Use `instanceof` checks** for type-safe error handling
 - **Access `error.requestId`** for debugging and support tickets
 - **Handle validation errors** with field-level detail

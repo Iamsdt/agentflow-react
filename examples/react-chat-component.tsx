@@ -17,7 +17,7 @@
 'use client'; // For Next.js App Router
 
 import React, { useState, useMemo, createContext, useContext, ReactNode } from 'react';
-import { AgentFlowClient, Message, InvokeResult } from 'agentflow-react';
+import { AgentFlowClient, Message, InvokeResult } from '@10xscale/agentflow-client';
 
 // ============================================
 // Context Setup

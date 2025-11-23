@@ -1,6 +1,6 @@
 # Troubleshooting Guide
 
-Common issues and solutions for agentflow-react.
+Common issues and solutions for @10xscale/agentflow-client.
 
 ## Table of Contents
 
@@ -37,7 +37,7 @@ npm install react@latest react-dom@latest
 Or if you must use React 17, use `--legacy-peer-deps`:
 
 ```bash
-npm install agentflow-react --legacy-peer-deps
+npm install @10xscale/agentflow-client --legacy-peer-deps
 ```
 
 ---
@@ -45,7 +45,7 @@ npm install agentflow-react --legacy-peer-deps
 ### Problem: TypeScript types not found
 
 ```
-Could not find a declaration file for module 'agentflow-react'
+Could not find a declaration file for module '@10xscale/agentflow-client'
 ```
 
 **Solution:**
@@ -73,7 +73,7 @@ The library includes TypeScript definitions. If they're not found:
 ### Problem: Module not found errors in Next.js
 
 ```
-Module not found: Can't resolve 'agentflow-react'
+Module not found: Can't resolve '@10xscale/agentflow-client'
 ```
 
 **Solution:**
@@ -83,7 +83,7 @@ Next.js App Router requires client-side components:
 ```typescript
 'use client';  // Add this at the top
 
-import { AgentFlowClient } from 'agentflow-react';
+import { AgentFlowClient } from '@10xscale/agentflow-client';
 ```
 
 ---
@@ -546,7 +546,7 @@ const result = await client.invoke({ messages });
 Import and use proper types:
 
 ```typescript
-import { AgentFlowClient, InvokeResult, Message } from 'agentflow-react';
+import { AgentFlowClient, InvokeResult, Message } from '@10xscale/agentflow-client';
 
 const client: AgentFlowClient = new AgentFlowClient({ /* ... */ });
 
@@ -571,7 +571,7 @@ client.invoke({ messages: ['Hello'] });
 Use Message helper methods:
 
 ```typescript
-import { Message } from 'agentflow-react';
+import { Message } from '@10xscale/agentflow-client';
 
 // ✅ Correct
 const messages = [
@@ -1012,7 +1012,7 @@ curl -N -X POST http://localhost:8000/v1/graph/stream \
 
 ## FAQ
 
-### Q: Can I use agentflow-react in Node.js (server-side)?
+### Q: Can I use @10xscale/agentflow-client in Node.js (server-side)?
 
 **A:** Yes! The library works in both browser and Node.js environments. Just ensure you have `fetch` available (Node 18+ has it built-in, or use `node-fetch` polyfill).
 
@@ -1154,7 +1154,7 @@ const clientB = new AgentFlowClient({ baseUrl: 'https://agent-b.example.com' });
 
 ```typescript
 import { describe, it, expect, vi } from 'vitest';
-import { AgentFlowClient } from 'agentflow-react';
+import { AgentFlowClient } from '@10xscale/agentflow-client';
 
 describe('Agent Integration', () => {
   it('should handle invoke', async () => {

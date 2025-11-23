@@ -1,6 +1,6 @@
 # Quick Start Guide
 
-Get started with agentflow-react in minutes.
+Get started with @10xscale/agentflow-client in minutes.
 
 ## Table of Contents
 
@@ -22,13 +22,13 @@ Get started with agentflow-react in minutes.
 ## Installation
 
 ```bash
-npm install agentflow-react
+npm install @10xscale/agentflow-client
 ```
 
 Or with yarn:
 
 ```bash
-yarn add agentflow-react
+yarn add @10xscale/agentflow-client
 ```
 
 ---
@@ -38,7 +38,7 @@ yarn add agentflow-react
 ### 1. Initialize the Client
 
 ```typescript
-import { AgentFlowClient } from 'agentflow-react';
+import { AgentFlowClient } from '@10xscale/agentflow-client';
 
 const client = new AgentFlowClient({
   baseUrl: 'https://your-api-url.com',  // Your AgentFlow API URL
@@ -135,7 +135,7 @@ console.log('Updated state:', response.data.state);
 Execute the agent workflow without tools.
 
 ```typescript
-import { Message } from 'agentflow-react';
+import { Message } from '@10xscale/agentflow-client';
 
 const result = await client.invoke({
   messages: [
@@ -158,7 +158,7 @@ Execute the agent with automatic tool execution.
 **⚠️ Important:** Remote tools (registered client-side) should **only** be used for browser-level APIs like `localStorage`, `navigator.geolocation`, etc. For most operations (database queries, external API calls, calculations), define your tools in the Python backend instead. See [Tools Guide - When to Use Remote Tools](./tools-guide.md#remote-tools-vs-backend-tools).
 
 ```typescript
-import { Message } from 'agentflow-react';
+import { Message } from '@10xscale/agentflow-client';
 
 // Step 1: Register tools (ONLY for browser APIs)
 client.registerTool({
@@ -239,7 +239,7 @@ console.log('Total iterations:', result.iterations);
 Get real-time responses as the agent processes.
 
 ```typescript
-import { Message } from 'agentflow-react';
+import { Message } from '@10xscale/agentflow-client';
 
 console.log('Streaming response:');
 
@@ -298,7 +298,7 @@ Store and retrieve agent memories.
 #### Store Memory
 
 ```typescript
-import { MemoryType } from 'agentflow-react';
+import { MemoryType } from '@10xscale/agentflow-client';
 
 const response = await client.storeMemory({
   content: 'User prefers dark mode and compact layout',
@@ -316,7 +316,7 @@ console.log('Stored memory:', response.data.memory_id);
 #### Search Memory
 
 ```typescript
-import { MemoryType, RetrievalStrategy } from 'agentflow-react';
+import { MemoryType, RetrievalStrategy } from '@10xscale/agentflow-client';
 
 const results = await client.searchMemory({
   query: 'user interface preferences',
@@ -335,7 +335,7 @@ for (const memory of results.data.results) {
 #### List Memories
 
 ```typescript
-import { MemoryType } from 'agentflow-react';
+import { MemoryType } from '@10xscale/agentflow-client';
 
 const memories = await client.listMemories({
   memory_type: MemoryType.SEMANTIC,
@@ -373,7 +373,7 @@ console.log('Deleted:', response.data.success);
 ### Basic Error Handling
 
 ```typescript
-import { AgentFlowError } from 'agentflow-react';
+import { AgentFlowError } from '@10xscale/agentflow-client';
 
 try {
   const result = await client.invoke({ messages: [...] });
@@ -396,7 +396,7 @@ import {
   NotFoundError,
   ValidationError,
   ServerError
-} from 'agentflow-react';
+} from '@10xscale/agentflow-client';
 
 try {
   await client.threadDetails('thread_123');
@@ -428,7 +428,7 @@ import {
   MemoryType,
   AuthenticationError,
   NotFoundError
-} from 'agentflow-react';
+} from '@10xscale/agentflow-client';
 
 // Initialize client
 const client = new AgentFlowClient({

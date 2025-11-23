@@ -1,6 +1,6 @@
-# AgentFlow React
+# AgentFlow Client
 
-[![npm version](https://img.shields.io/npm/v/agentflow-react.svg)](https://www.npmjs.com/package/agentflow-react)
+[![npm version](https://img.shields.io/npm/v/@10xscale/agentflow-client.svg)](https://www.npmjs.com/package/@10xscale/agentflow-client)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18.0+-blue.svg)](https://reactjs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -20,11 +20,11 @@ A TypeScript/React client library for the **AgentFlow** multi-agent system API. 
 ## 📦 Installation
 
 ```bash
-npm install agentflow-react
+npm install @10xscale/agentflow-client
 # or
-yarn add agentflow-react
+yarn add @10xscale/agentflow-client
 # or
-pnpm add agentflow-react
+pnpm add @10xscale/agentflow-client
 ```
 
 ## 🚀 Quick Start
@@ -32,7 +32,7 @@ pnpm add agentflow-react
 ### Basic Usage
 
 ```typescript
-import { AgentFlowClient, Message } from 'agentflow-react';
+import { AgentFlowClient, Message } from '@10xscale/agentflow-client';
 
 // Initialize client
 const client = new AgentFlowClient({
@@ -68,7 +68,7 @@ for await (const chunk of stream) {
 
 ```typescript
 import { useState } from 'react';
-import { AgentFlowClient, Message } from 'agentflow-react';
+import { AgentFlowClient, Message } from '@10xscale/agentflow-client';
 
 function ChatComponent() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -199,7 +199,7 @@ Check out the [`examples/`](examples/) directory for complete working examples:
            │ AgentFlowClient
            ▼
 ┌─────────────────────┐
-│  agentflow-react    │  ← This library
+│  @10xscale/agentflow-client    │  ← This library
 │  - Client           │
 │  - Tools            │
 │  - Messages         │
@@ -250,7 +250,7 @@ import type {
   StreamChunk,
   AgentState,
   AgentStateSchema
-} from 'agentflow-react';
+} from '@10xscale/agentflow-client';
 ```
 
 ## 🤝 Contributing
@@ -270,8 +270,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🆘 Support
 
 - 📚 [Documentation](docs/)
-- 🐛 [Issue Tracker](https://github.com/Iamsdt/agentflow-react/issues)
-- 💬 [Discussions](https://github.com/Iamsdt/agentflow-react/discussions)
+- 🐛 [Issue Tracker](https://github.com/Iamsdt/agentflow-client/issues)
+- 💬 [Discussions](https://github.com/Iamsdt/agentflow-client/discussions)
 
 ## 🙏 Acknowledgments
 

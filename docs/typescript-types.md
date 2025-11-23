@@ -1,6 +1,6 @@
 # TypeScript Types Guide
 
-Complete TypeScript reference for agentflow-react.
+Complete TypeScript reference for @10xscale/agentflow-client.
 
 ## Table of Contents
 
@@ -25,7 +25,7 @@ The library includes full TypeScript support with type definitions.
 ### Basic Setup
 
 ```bash
-npm install agentflow-react
+npm install @10xscale/agentflow-client
 ```
 
 **TypeScript Configuration:**
@@ -97,7 +97,7 @@ import {
   
   // Metadata
   ResponseMetadata
-} from 'agentflow-react';
+} from '@10xscale/agentflow-client';
 ```
 
 ---
@@ -419,7 +419,7 @@ class TokenUsages {
 **Example:**
 
 ```typescript
-import { Message, TextBlock, ImageBlock, MediaRef } from 'agentflow-react';
+import { Message, TextBlock, ImageBlock, MediaRef } from '@10xscale/agentflow-client';
 
 // Simple text message
 const userMessage: Message = Message.text_message('Hello', 'user');
@@ -725,7 +725,7 @@ interface MemoryResult {
 **Example:**
 
 ```typescript
-import { MemoryType, RetrievalStrategy, DistanceMetric } from 'agentflow-react';
+import { MemoryType, RetrievalStrategy, DistanceMetric } from '@10xscale/agentflow-client';
 
 // Store memory
 const storeRequest: StoreMemoryRequest = {
@@ -861,7 +861,7 @@ import {
   AgentFlowError, 
   AuthenticationError, 
   NotFoundError 
-} from 'agentflow-react';
+} from '@10xscale/agentflow-client';
 
 try {
   const result = await client.invoke({ messages });
@@ -1163,7 +1163,7 @@ import {
   SearchMemoryRequest,
   AuthenticationError,
   NotFoundError
-} from 'agentflow-react';
+} from '@10xscale/agentflow-client';
 
 // Configuration
 const config: AgentFlowConfig = {

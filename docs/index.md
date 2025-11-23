@@ -13,9 +13,9 @@ Welcome to the **AgentFlow Client** documentation! This guide will help you inte
 | **[Tools Guide](./tools-guide.md)** | Tool registration and execution |
 | **[Troubleshooting](./troubleshooting.md)** | Common issues and solutions |
 
-## 📖 What is AgentFlow React?
+## 📖 What is AgentFlow Client?
 
-**AgentFlow React** is a TypeScript client library that connects your React applications to the AgentFlow multi-agent system. It provides:
+**AgentFlow Client** is a TypeScript client library that connects your React applications to the AgentFlow multi-agent system. It provides:
 
 - ✅ **Simple API Client** - Clean interface to AgentFlow backend
 - ✅ **Streaming Support** - Real-time responses for chat interfaces
@@ -218,16 +218,16 @@ Solutions to common issues:
 **...see complete examples**
 → [React Examples](./react-examples.md) or [/examples folder](../examples/)
 
-## � Installation
+## 📦 Installation
 
 ```bash
-npm install agentflow-react
+npm install @10xscale/agentflow-client
 ```
 
 ## 🚀 30-Second Example
 
 ```typescript
-import { AgentFlowClient, Message } from 'agentflow-react';
+import { AgentFlowClient, Message } from '@10xscale/agentflow-client';
 
 const client = new AgentFlowClient({
   baseUrl: 'http://localhost:8000'

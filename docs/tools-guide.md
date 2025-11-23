@@ -1,6 +1,6 @@
 # Tools Guide
 
-Complete guide to tool registration, execution, and best practices in agentflow-react.
+Complete guide to tool registration, execution, and best practices in @10xscale/agentflow-client.
 
 ## Table of Contents
 
@@ -149,7 +149,7 @@ User: "Save this to my database"
 Register tools with the `registerTool()` method before calling `invoke()` or `stream()`:
 
 ```typescript
-import { AgentFlowClient } from 'agentflow-react';
+import { AgentFlowClient } from '@10xscale/agentflow-client';
 
 const client = new AgentFlowClient({
   baseUrl: 'https://api.example.com',
@@ -444,7 +444,7 @@ Final Response
 With `stream()`, you're responsible for the tool loop:
 
 ```typescript
-import { Message } from 'agentflow-react';
+import { Message } from '@10xscale/agentflow-client';
 
 let messages = [Message.text_message("What's the weather in Tokyo?", 'user')];
 let continueLoop = true;
@@ -1080,7 +1080,7 @@ describe('Calculator Tool', () => {
 Test tools with the agent:
 
 ```typescript
-import { AgentFlowClient, Message } from 'agentflow-react';
+import { AgentFlowClient, Message } from '@10xscale/agentflow-client';
 import { describe, it, expect, beforeEach } from 'vitest';
 
 describe('Weather Tool Integration', () => {

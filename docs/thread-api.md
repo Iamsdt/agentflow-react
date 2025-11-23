@@ -514,7 +514,7 @@ interface AddThreadMessagesResponse {
 
 **Example:**
 ```typescript
-import { Message } from 'agentflow-react';
+import { Message } from '@10xscale/agentflow-client';
 
 // Add user message
 await client.addThreadMessages('thread_123', {
@@ -862,7 +862,7 @@ await resetThreadState('thread_123', ['user_id', 'preferences']);
 ### 4. Handle Not Found Gracefully
 
 ```typescript
-import { NotFoundError } from 'agentflow-react';
+import { NotFoundError } from '@10xscale/agentflow-client';
 
 async function getOrCreateThread(threadId: string, userId: string) {
   try {
@@ -942,7 +942,7 @@ import {
   NotFoundError,
   ValidationError,
   PermissionError
-} from 'agentflow-react';
+} from '@10xscale/agentflow-client';
 
 try {
   await client.threadDetails('thread_123');
@@ -966,7 +966,7 @@ import {
   AgentFlowClient,
   Message,
   NotFoundError
-} from 'agentflow-react';
+} from '@10xscale/agentflow-client';
 
 const client = new AgentFlowClient({
   baseUrl: 'https://api.example.com',

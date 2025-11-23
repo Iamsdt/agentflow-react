@@ -22,7 +22,7 @@ This enables users to:
 ### Basic Example
 
 ```typescript
-import { AgentFlowClient } from 'agentflow-react';
+import { AgentFlowClient } from '@10xscale/agentflow-client';
 
 const client = new AgentFlowClient({
   baseUrl: 'https://api.example.com',

@@ -28,7 +28,7 @@ Basic chat interface using the `invoke()` method.
 ```typescript
 // components/SimpleChat.tsx
 import { useState, useRef, useEffect } from 'react';
-import { AgentFlowClient, Message } from 'agentflow-react';
+import { AgentFlowClient, Message } from '@10xscale/agentflow-client';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -301,7 +301,7 @@ Real-time streaming chat with visual feedback.
 ```typescript
 // components/StreamingChat.tsx
 import { useState, useRef, useEffect } from 'react';
-import { AgentFlowClient, Message, StreamChunk } from 'agentflow-react';
+import { AgentFlowClient, Message, StreamChunk } from '@10xscale/agentflow-client';
 
 interface ChatMessage {
   id: string;
@@ -525,7 +525,7 @@ Generate forms dynamically from state schema.
 ```typescript
 // components/DynamicFormBuilder.tsx
 import { useState, useEffect } from 'react';
-import { AgentFlowClient, AgentStateSchema, FieldSchema } from 'agentflow-react';
+import { AgentFlowClient, AgentStateSchema, FieldSchema } from '@10xscale/agentflow-client';
 
 export function DynamicFormBuilder() {
   const [schema, setSchema] = useState<AgentStateSchema | null>(null);
@@ -820,7 +820,7 @@ Chat interface with tool execution.
 ```typescript
 // components/AgentWithTools.tsx
 import { useState, useRef, useEffect } from 'react';
-import { AgentFlowClient, Message } from 'agentflow-react';
+import { AgentFlowClient, Message } from '@10xscale/agentflow-client';
 
 export function AgentWithTools() {
   const [messages, setMessages] = useState<any[]>([]);
@@ -1060,7 +1060,7 @@ Complex workflow with multiple agent interactions.
 ```typescript
 // components/MultiStepWorkflow.tsx
 import { useState } from 'react';
-import { AgentFlowClient, Message } from 'agentflow-react';
+import { AgentFlowClient, Message } from '@10xscale/agentflow-client';
 
 type Step = 'input' | 'processing' | 'review' | 'complete';
 
@@ -1276,7 +1276,7 @@ Manage conversation threads.
 ```typescript
 // components/ThreadManagement.tsx
 import { useState, useEffect } from 'react';
-import { AgentFlowClient, Message } from 'agentflow-react';
+import { AgentFlowClient, Message } from '@10xscale/agentflow-client';
 
 interface Thread {
   id: string;

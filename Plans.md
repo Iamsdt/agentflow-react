@@ -125,7 +125,7 @@ These are development notes, not user documentation:
 - [x] Return types and error handling
 
 #### 3.2 Create `react-integration.md` ⭐ (PRIORITY)
-**How to use agentflow-react in React applications**
+**How to use @10xscale/agentflow-client in React applications**
 - [x] Installation in React projects
 - [x] Setting up AgentFlowClient in React
 - [x] Context provider pattern for client

@@ -66,7 +66,7 @@ Endpoint.invoke() [Loop starts here]
 ### 1. Create Client and Register Tools
 
 ```typescript
-import { AgentFlowClient, Message, ToolRegistration } from 'agentflow-react';
+import { AgentFlowClient, Message, ToolRegistration } from '@10xscale/agentflow-client';
 
 // Create client
 const client = new AgentFlowClient({

@@ -1,6 +1,6 @@
-# AgentFlow React Examples
+# AgentFlow Client Examples
 
-This directory contains complete, runnable examples demonstrating how to use the agentflow-react library.
+This directory contains complete, runnable examples demonstrating how to use the @10xscale/agentflow-client library.
 
 ## 📁 Examples Overview
 
@@ -130,7 +130,7 @@ Each example follows this structure:
 
 ```typescript
 // 1. Import dependencies
-import { AgentFlowClient, Message } from 'agentflow-react';
+import { AgentFlowClient, Message } from '@10xscale/agentflow-client';
 
 // 2. Configure client
 const client = new AgentFlowClient({
